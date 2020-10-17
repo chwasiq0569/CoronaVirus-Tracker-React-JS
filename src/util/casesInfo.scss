@@ -1,0 +1,120 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
+// font-family: "Manrope", sans-serif;
+$primary-color: #6b7add;
+$bg-color: #f7f8fc;
+$green-color: green;
+$red-color: red;
+$primary-Text: #737585;
+$bg-Shade: #dee0f4;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.cases__Info2 {
+  display: flex;
+  .info_Row2 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    .leftSide2 {
+      display: flex;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: $primary-Text;
+      padding-bottom: 0.5rem;
+      text-align: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .no_of_Cases_active {
+      font-size: 0.9rem;
+      color: $primary-color;
+      font-weight: 800;
+      align-self: center;
+      cursor: pointer;
+      justify-self: center;
+    }
+    .no_of_Cases_recovered {
+      font-size: 0.9rem;
+      color: $green-color;
+      font-weight: 800;
+      align-self: center;
+      margin-left: 0.5rem;
+      cursor: pointer;
+    }
+    .no_of_Cases_deaths {
+      font-size: 0.9rem;
+      color: $red-color;
+      font-weight: 800;
+      cursor: pointer;
+      align-self: center;
+    }
+  }
+}
+
+.cases__Info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  .info_Row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .leftSide {
+      display: flex;
+      align-items: center;
+      .markerBlue,
+      .markerGreen,
+      .markerRed {
+        width: 0.65rem;
+        height: 0.65rem;
+        background-color: $primary-color;
+        border-radius: 0.2rem;
+        opacity: 0.7;
+      }
+      .markerGreen {
+        background-color: green;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .markerRed {
+        background-color: red;
+      }
+      .cases {
+        margin-left: 5px;
+        font-size: 0.65rem;
+        color: $primary-Text;
+        font-weight: 700;
+      }
+    }
+    .no_of_Cases {
+      color: $primary-Text;
+      font-weight: 800;
+      font-size: 0.8rem;
+      font-family: "Manrope", sans-serif;
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .cases__Info2 {
+    .info_Row2 {
+      .leftSide2 {
+        font-size: 0.7rem;
+        font-weight: 400;
+      }
+      .no_of_Cases_active {
+        font-size: 0.75rem;
+      }
+      .no_of_Cases_recovered {
+        font-size: 0.75rem;
+      }
+      .no_of_Cases_deaths {
+        font-size: 0.75rem;
+      }
+    }
+  }
+}

@@ -1,24 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Topbar from "./Topbar/Topbar";
+import HomePage from "./HomePage/HomePage";
+import "leaflet/dist/leaflet.css";
+import WorldDataPage from "./WorldDataPage/WorldDataPage";
+import { Route } from "react-router-dom";
+import News from "./News/News";
+import NewsDetails from "./News/NewsDetails";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Topbar />
+      <Route exact path="/" component={HomePage} />
+      <Route exact path="/worldwide" component={WorldDataPage} />
+      <Route exact path="/importantinfo" component={News} />
+      <Route exact path="/importantinfo/:name" component={NewsDetails} />
     </div>
   );
 }

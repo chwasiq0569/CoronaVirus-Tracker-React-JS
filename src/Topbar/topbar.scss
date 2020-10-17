@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
+// font-family: "Manrope", sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.topBar__Wrapper {
+  width: 100%;
+  height: 3.5rem;
+  z-index: -2;
+  .inner__Wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #f7f8fc;
+    .logoContainer {
+      height: 4rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      -webkit-user-select: none;
+      -moz-user-select: -moz-none;
+      /*IE10*/
+      -ms-user-select: none;
+      user-select: none;
+      /*You just need this if you are only concerned with android and not desktop browsers.*/
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      img {
+        width: 70%;
+        height: 70%;
+        object-fit: contain;
+        margin-top: 0.25rem;
+
+        -webkit-user-select: none;
+        -moz-user-select: -moz-none;
+        /*IE10*/
+        -ms-user-select: none;
+        user-select: none;
+        /*You just need this if you are only concerned with android and not desktop browsers.*/
+
+        -webkit-tap-highlight-color: transparent;
+      }
+      -webkit-tap-highlight-color: transparent;
+    }
+    .logoContainer {
+      outline-width: 0;
+    }
+
+    .logoContainer:focus {
+      outline: none;
+    }
+    h1 {
+      font-family: "Manrope", sans-serif;
+      font-size: 1rem;
+      color: rgb(65, 59, 59);
+      margin-left: 0.5rem;
+    }
+  }
+}
+@media screen and (max-width: 600px) {
+  .topBar__Wrapper {
+    .inner__Wrapper {
+      h1 {
+        margin-left: 0;
+        font-size: 0.75rem;
+      }
+    }
+  }
+}
+@media screen and (max-width: 375px) {
+  .topBar__Wrapper {
+    .inner__Wrapper {
+      h1 {
+        margin-left: -0.75rem;
+        font-size: 0.75rem;
+      }
+    }
+  }
+}

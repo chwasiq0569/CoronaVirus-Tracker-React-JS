@@ -1,0 +1,165 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
+// font-family: "Manrope", sans-serif;
+$primary-color: #6b7add;
+$bg-color: #f7f8fc;
+$green-color: green;
+$red-color: red;
+$primary-Text: #737585;
+$bg-Shade: #dee0f4;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.newsDetails__Wrapper {
+  width: calc(100% - 4rem);
+  height: calc(100vh - 3.6rem);
+  margin-left: 4rem;
+  font-family: "Manrope", sans-serif;
+  background-color: #f7f8fc;
+  display: flex;
+  justify-content: center;
+  .inner__Wrapper {
+    width: 100%;
+    height: 100%;
+    background-color: #f7f8fc;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    justify-content: center;
+    h1 {
+      font-family: "Manrope", sans-serif;
+      font-size: 2.5rem;
+      color: $primary-color;
+    }
+    .meta {
+      color: #0e1353;
+      margin-top: 1.2rem;
+    }
+    .explaination {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: rgb(56, 57, 68);
+      line-height: 1.6;
+      margin-top: 0.5rem;
+    }
+    .phase {
+      font-weight: 550;
+      margin-top: 0.5rem;
+    }
+    .flexTwoElements {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      align-items: flex-start;
+      .sponsors,
+      .funding {
+        color: $primary-Text;
+      }
+      .funding {
+        text-align: right;
+      }
+    }
+  }
+}
+@media screen and (max-width: 772px) {
+  .newsDetails__Wrapper {
+    background-color: #f7f8fc;
+    .inner__Wrapper {
+      background-color: #f7f8fc;
+      h1 {
+        font-family: "Manrope", sans-serif;
+        font-size: 1.85rem;
+        margin-top: 3rem;
+        color: $primary-color;
+      }
+      .meta {
+        color: #0e1353;
+        margin-top: 0.5rem;
+        font-size: 1.2rem;
+      }
+      .explaination {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: rgb(56, 57, 68);
+        line-height: 1.6;
+        margin-top: 0.5rem;
+      }
+      .phase {
+        font-weight: 550;
+        margin-top: 0.5rem;
+      }
+      .flexTwoElements {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+        align-items: flex-start;
+        font-size: 0.85rem;
+        .sponsors,
+        .funding {
+          color: $primary-Text;
+        }
+        .funding {
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 600px) {
+  .newsDetails__Wrapper {
+    height: auto;
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 5rem;
+    z-index: 1;
+    background-color: white;
+    .inner__Wrapper {
+      margin-top: 0;
+      height: auto;
+      padding: 1rem;
+      background-color: white;
+      h1 {
+        font-family: "Manrope", sans-serif;
+        font-size: 1.5rem;
+        color: $primary-color;
+        margin-top: 0rem;
+      }
+      .meta {
+        color: #0e1353;
+        margin-top: 1.2rem;
+        font-size: 1rem;
+      }
+      .explaination {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: rgb(56, 57, 68);
+        line-height: 1.6;
+        margin-top: 0.5rem;
+      }
+      .phase {
+        font-weight: 550;
+        margin-top: 0.5rem;
+        font-size: 0.75rem;
+      }
+      .institutions {
+        font-size: 0.75rem;
+        color: black;
+      }
+      .flexTwoElements {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+        align-items: flex-start;
+        .sponsors,
+        .funding {
+          color: $primary-Text;
+          font-size: 0.5rem;
+        }
+        .funding {
+          text-align: right;
+        }
+      }
+    }
+  }
+}

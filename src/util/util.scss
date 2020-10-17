@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
+// font-family: "Manrope", sans-serif;
+$primary-color: #6b7add;
+$bg-color: #f7f8fc;
+$green-color: green;
+$red-color: red;
+$primary-Text: #737585;
+$bg-Shade: #dee0f4;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.popUp_Container {
+  width: auto;
+  height: auto;
+  pointer-events: none;
+  .heading {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #dee0f4;
+    padding-bottom: 0.5rem;
+    font-size: 0.65rem;
+  }
+}

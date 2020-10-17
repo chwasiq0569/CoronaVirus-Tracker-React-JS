@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+// font-family: "Manrope", sans-serif;
+// font-family: 'Poppins', sans-serif;
+$primary-color: #6b7add;
+$bg-color: #f7f8fc;
+$green-color: green;
+$red-color: red;
+$primary-Text: #737585;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.card__Wrapper {
+  width: 99%;
+  height: 100%;
+  border-radius: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border: 2px solid #e7e9f0;
+  box-shadow: -0px -0px 5px 1px #e7e9f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin: 0.3rem;
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+  /*IE10*/
+  -ms-user-select: none;
+  user-select: none;
+  /*You just need this if you are only concerned with android and not desktop browsers.*/
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  .TopHeadings {
+    display: flex;
+    align-items: center;
+    h3 {
+      font-size: 0.9rem;
+      color: #737585;
+      font-family: "Manrope", sans-serif;
+      font-weight: 700;
+    }
+    h5 {
+      font-size: 0.6rem;
+      color: $primary-Text !important;
+      opacity: 0.8;
+    }
+  }
+  .uppercase {
+    color: #898ba3;
+    font-size: 0.45rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .no_Of_Cases {
+    color: #0e1353;
+    font-size: 1.8rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    margin-left: -2px;
+  }
+  .cases__Info {
+    width: 100%;
+    .info_Row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .leftSide {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        .markerBlue,
+        .markerGreen,
+        .markerRed {
+          width: 0.65rem;
+          height: 0.65rem;
+          background-color: $primary-color;
+          border-radius: 0.2rem;
+          opacity: 0.7;
+        }
+        .markerGreen {
+          background-color: green;
+          margin-top: 0.5rem;
+          margin-bottom: 0.5rem;
+        }
+        .markerRed {
+          background-color: red;
+        }
+        .cases {
+          margin-left: 5px;
+          font-size: 0.65rem;
+          color: $primary-Text;
+          font-weight: 700;
+        }
+      }
+      .no_of_Cases {
+        cursor: pointer;
+        color: $primary-Text;
+        font-weight: 800;
+        font-size: 0.8rem;
+        font-family: "Manrope", sans-serif;
+      }
+    }
+  }
+}

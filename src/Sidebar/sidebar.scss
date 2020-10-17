@@ -1,0 +1,119 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
+// font-family: "Manrope", sans-serif;
+$primary-color: #6b7add;
+$bg-color: #f7f8fc;
+$green-color: green;
+$red-color: red;
+$primary-Text: #737585;
+$bg-Shade: #dee0f4;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.sidebar__Wrapper {
+  width: 4.5rem;
+  height: calc(100vh - 4rem);
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 3.5rem;
+  background-color: #f7f8fc;
+  .inner__Wrapper {
+    padding-top: 0.5rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #f7f8fc;
+    -webkit-box-shadow: 10px 0px 25px -10px #e7e9f0;
+    .iconsContainer {
+      width: 100%;
+      height: 85%;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      .icons {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        .iconsDefaultStyle {
+          color: #898ba3;
+          border-radius: 0.2rem;
+          width: 2.5rem;
+          height: 2.5rem;
+          cursor: pointer;
+          font-size: 2rem;
+          padding: 0.35rem;
+          transition: all 0.2s ease;
+          &:hover {
+            color: $primary-color;
+            background-color: $bg-Shade;
+          }
+        }
+        .activeIconStyle {
+          border-radius: 0.2rem;
+          width: 2.5rem;
+          height: 2.5rem;
+          cursor: pointer;
+          font-size: 2rem;
+          padding: 0.35rem;
+          transition: all 0.2s ease;
+          color: $primary-color;
+          background-color: $bg-Shade;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1113px) {
+  .sidebar__Wrapper {
+    display: flex;
+    justify-content: center;
+    .inner__Wrapper {
+      height: 100vh;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .sidebar__Wrapper {
+    width: 100%;
+    height: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    z-index: 5000;
+    .inner__Wrapper {
+      display: flex;
+      flex-direction: row;
+      height: 100%;
+      width: 100%;
+      align-items: center;
+      position: fixed;
+      bottom: 0;
+      box-shadow: 0px -2px 15px #e7e9f0;
+      .iconsContainer {
+        width: 100%;
+        height: 85%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+        .icons {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+      }
+    }
+  }
+}
