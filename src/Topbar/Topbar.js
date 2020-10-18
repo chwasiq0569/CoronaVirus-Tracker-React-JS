@@ -12,8 +12,14 @@ const Topbar = () => {
             <img src={CovidImg} alt="CovidImg Logo" />
           </div>
         </Link>
+       <div className="outer__Container">
+        <div className="leftSide">
         <h1>COVID-19 Coronavirus Tracker</h1>
-        <p></p>
+          </div>
+        <div className="rightSide">
+          <p className="github_repo_link" onClick={() => window.open("https://github.com/chwasiq0569/CoronaVirus-Tracker-React-JS", "_blank")}>Click to See Github Repo</p>
+        </div>
+       </div>
       </div>
     </div>
   );

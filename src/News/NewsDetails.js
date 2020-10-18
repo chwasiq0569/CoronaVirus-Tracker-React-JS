@@ -1,7 +1,6 @@
 import React from "react";
 import "./newsDetails.scss";
 import Sidebar from "../Sidebar/Sidebar";
-
 const NewsDetails = ({ match, history }) => {
   console.log(history.location.state);
   const state = history.location.state;

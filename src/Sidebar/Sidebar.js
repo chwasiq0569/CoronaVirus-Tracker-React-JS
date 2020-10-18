@@ -32,7 +32,6 @@ const Sidebar = () => {
             </NavLink>
             <NavLink to="/importantinfo">
               <InfoOutlinedIcon
-                // onClick={() => setActiveLink("importantinfo")}
                 className={
                   pathname === "/importantinfo"
                     ? "activeIconStyle"

@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useEffect } from "react";
 import numeral from "numeral";
 import "./casesInfo.scss";
 
@@ -9,6 +9,11 @@ const CasesInfo = ({
   worldWideData,
   setcasesStateCountry,
 }) => {
+
+useEffect(() => {
+  window.scrollTo(0,0);
+},[])
+
   return (
     <div className={!worldWide ? "cases__Info" : "cases__Info2"}>
       <div
@@ -17,6 +22,7 @@ const CasesInfo = ({
           !worldWide
             ? setcasesStateCountry("cases")
             : setcasesStateWorldWide("cases");
+            window.scrollTo(0,document.body.scrollHeight);
         }}
       >
         <div
@@ -40,6 +46,7 @@ const CasesInfo = ({
           !worldWide
             ? setcasesStateCountry("recovered")
             : setcasesStateWorldWide("recovered");
+            window.scrollTo(0,document.body.scrollHeight);
         }}
       >
         <div
@@ -64,6 +71,7 @@ const CasesInfo = ({
             !worldWide
               ? setcasesStateCountry("deaths")
               : setcasesStateWorldWide("deaths");
+              window.scrollTo(0,document.body.scrollHeight);
           }}
         >
           <div className="markerRed"></div>
@@ -75,6 +83,7 @@ const CasesInfo = ({
             !worldWide
               ? setcasesStateCountry("deaths")
               : setcasesStateWorldWide("deaths");
+              window.scrollTo(0,document.body.scrollHeight);
           }}
         >
           {numeral(country?.deaths).format("0,0")}
