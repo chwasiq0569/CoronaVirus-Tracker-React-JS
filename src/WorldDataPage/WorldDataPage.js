@@ -72,7 +72,7 @@ const WorldDataPage = () => {
         }));
         const sortedData = sortData(countriesData);
         setCountries(sortedData);
-        console.log(countries);
+        console.log("countries: ", sortedData);
       });
   }, []);
   let data = countries.map((e) =>
@@ -87,7 +87,6 @@ const WorldDataPage = () => {
       e.seriouscritical
     )
   );
-  console.log("data: ", data);
   const classes = useStyles();
   return (
     <div className="worldDataPage__Wrapper">
@@ -213,7 +212,12 @@ const WorldDataPage = () => {
                         ? `+${numeral(row.newcases).format("0,0")}`
                         : row.newcases}
                     </TableCell>
-                    <TableCell align="right">{row.totaldeaths}</TableCell>
+                    <TableCell align="right">
+                      {/* {row.totaldeaths} */}
+                      {row.totaldeaths
+                        ? `${numeral(row.totaldeaths).format("0,0")}`
+                        : row.totaldeaths}
+                    </TableCell>
                     <TableCell
                       align="right"
                       className={`${
@@ -225,10 +229,10 @@ const WorldDataPage = () => {
                         : row.newdeaths}
                     </TableCell>
                     <TableCell align="right">
-                      {numeral(row.totalrecovered).format("0,0")}
+                      {numeral(row.activecases).format("0,0")}
                     </TableCell>
                     <TableCell align="right">
-                      {numeral(row.activecases).format("0,0")}
+                      {numeral(row.totalrecovered).format("0,0")}
                     </TableCell>
                     <TableCell align="right">
                       {numeral(row.seriouscritical).format("0,0")}
