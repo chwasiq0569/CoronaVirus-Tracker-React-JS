@@ -34,8 +34,6 @@ const News = () => {
     fetchData();
   }, []);
 
-  console.log("data: ", data?.data[1]);
-
   function truncate(str, n) {
     return str?.length > n ? str.substr(0, n - 1) + "....." : str;
   }
@@ -64,8 +62,10 @@ const News = () => {
                     {truncate(data?.data[1]?.details, 150)}
                   </p>
                   <p className="trialphase">{data?.data[1]?.trialPhase}</p>
-                  {data?.data[1].sponsors.map((e) => (
-                    <p className="sponsors">{e}</p>
+                  {data?.data[1].sponsors.map((e, i) => (
+                    <p key={i} className="sponsors">
+                      {e}
+                    </p>
                   ))}
                 </div>
               </NavLink>
