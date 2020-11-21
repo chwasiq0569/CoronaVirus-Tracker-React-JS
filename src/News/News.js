@@ -4,6 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { makeStyles } from "@material-ui/core/styles";
+import { v4 as uuidv4 } from "uuid";
 
 const useStyles = makeStyles({
   root: {
@@ -23,7 +24,9 @@ const News = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const api = await fetch("https://disease.sh/v3/covid-19/vaccine");
+      const api = await fetch(
+        "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/vaccine"
+      );
       const response = await api.json();
       console.log("response.data: ", response.data);
       setData(response);
@@ -40,7 +43,7 @@ const News = () => {
   return (
     <div className="newsPage__Wrapper">
       <div className="inner__Wrapper">
-        <Sidebar />
+        {/* <Sidebar /> */}
         <div className="leftSide">
           <div className="innerLeftSide">
             {!data ? (
@@ -124,9 +127,9 @@ const News = () => {
           ) : (
             <div className="innerRightSide">
               {data?.data.map((data, i) => {
-                if (i > 8 && i <= 12) {
+                if (i > 22 && i <= 26) {
                   return (
-                    <div className="innerRightSideRow1" key={i}>
+                    <div className="innerRightSideRow1" key={uuidv4()}>
                       <NavLink
                         to={{
                           pathname: `importantinfo/${data?.candidate}`,
@@ -159,7 +162,7 @@ const News = () => {
             {data?.data.map((data, i) => {
               if (i === 11 || i === 13 || i === 14 || i === 17) {
                 return (
-                  <div className="rightSideData" key={i}>
+                  <div className="rightSideData" key={uuidv4()}>
                     <NavLink
                       to={{
                         pathname: `importantinfo/${data?.candidate}`,

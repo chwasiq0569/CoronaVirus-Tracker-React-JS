@@ -7,7 +7,9 @@
 .topBar__Wrapper {
   width: 100%;
   height: 3.5rem;
-  z-index: -2;
+  z-index: 2;
+  // top: 0;
+  // left: 0;
   .inner__Wrapper {
     width: 100%;
     height: 100%;
@@ -45,6 +47,9 @@
       .leftSide {
         display: flex;
         align-items: center;
+        margin-left: 0.45rem;
+        // text-align: center;
+        // justify-content: center;
       }
     }
     .logoContainer {

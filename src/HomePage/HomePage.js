@@ -25,7 +25,9 @@ const HomePage = () => {
   const [selected, setSelected] = useState("");
 
   useEffect(() => {
-    fetch("https://disease.sh/v3/covid-19/all")
+    fetch(
+      "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/all"
+    )
       .then((response) => response.json())
       .then((data) => {
         setWorldWide({
@@ -35,6 +37,27 @@ const HomePage = () => {
           recovered: data.recovered,
           deaths: data.deaths,
         });
+      });
+    fetch(
+      "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setMapCountries(data);
+        const countries = data.map((countries) => ({
+          name: countries?.country,
+          value: countries?.countryInfo?.iso3,
+          cases: countries?.cases,
+          active: countries?.active,
+          recovered: countries?.recovered,
+          deaths: countries?.deaths,
+          lat: countries?.countryInfo?.lat,
+          long: countries?.countryInfo?.long,
+        }));
+        const sortedData = sortData(countries);
+        console.log(sortedData);
+        setCountries(sortedData);
+        setSelectedCountry(sortedData[0]);
       });
   }, []);
   function userToClass(user = "USA") {
@@ -67,27 +90,29 @@ const HomePage = () => {
     // this.setState({ list: queryData });
   };
 
-  useEffect(() => {
-    fetch("https://disease.sh/v3/covid-19/countries")
-      .then((response) => response.json())
-      .then((data) => {
-        setMapCountries(data);
-        const countries = data.map((countries) => ({
-          name: countries?.country,
-          value: countries?.countryInfo?.iso3,
-          cases: countries?.cases,
-          active: countries?.active,
-          recovered: countries?.recovered,
-          deaths: countries?.deaths,
-          lat: countries?.countryInfo?.lat,
-          long: countries?.countryInfo?.long,
-        }));
-        const sortedData = sortData(countries);
-        console.log(sortedData);
-        setCountries(sortedData);
-        setSelectedCountry(sortedData[0]);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(
+  //     "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries"
+  //   )
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setMapCountries(data);
+  //       const countries = data.map((countries) => ({
+  //         name: countries?.country,
+  //         value: countries?.countryInfo?.iso3,
+  //         cases: countries?.cases,
+  //         active: countries?.active,
+  //         recovered: countries?.recovered,
+  //         deaths: countries?.deaths,
+  //         lat: countries?.countryInfo?.lat,
+  //         long: countries?.countryInfo?.long,
+  //       }));
+  //       const sortedData = sortData(countries);
+  //       console.log(sortedData);
+  //       setCountries(sortedData);
+  //       setSelectedCountry(sortedData[0]);
+  //     });
+  // }, []);
 
   const individualCountry = (country) => {
     setSelectedCountry(country);
@@ -98,7 +123,7 @@ const HomePage = () => {
   return (
     <div className="homePage__Wrapper">
       <div className="inner__Wrapper">
-        <Sidebar />
+        {/* <Sidebar /> */}
         <div className="upper__Section">
           <div className="upper__leftSide">
             <Card
@@ -122,7 +147,7 @@ const HomePage = () => {
               <div className="SearchBar__Container">
                 <input
                   type="search"
-                  placeholder="Cases by Country"
+                  placeholder="Search by Country"
                   value={searchData}
                   onChange={searchDataFunc}
                 />

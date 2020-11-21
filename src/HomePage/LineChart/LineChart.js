@@ -10,7 +10,7 @@ const LineChart = ({ casesStateWorldWide }) => {
   useEffect(() => {
     const fetchData = async (casesState) => {
       const api = await fetch(
-        "https://disease.sh/v3/covid-19/historical/all?lastdays=15"
+        "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/historical/all?lastdays=15"
       );
       const response = await api.json();
       let lastData = 0;

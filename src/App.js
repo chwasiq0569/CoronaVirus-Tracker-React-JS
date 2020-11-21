@@ -7,11 +7,12 @@ import WorldDataPage from "./WorldDataPage/WorldDataPage";
 import { Route } from "react-router-dom";
 import News from "./News/News";
 import NewsDetails from "./News/NewsDetails";
-
+import Sidebar from "./Sidebar/Sidebar";
 function App() {
   return (
     <div className="App">
       <Topbar />
+      <Sidebar />
       <Route exact path="/" component={HomePage} />
       <Route exact path="/worldwide" component={WorldDataPage} />
       <Route exact path="/importantinfo" component={News} />

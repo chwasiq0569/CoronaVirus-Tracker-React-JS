@@ -36,12 +36,14 @@ $primary-Text: #737585;
     align-items: center;
     h3 {
       font-size: 0.9rem;
+      // font-size: 1.35vw;
       color: #737585;
       font-family: "Manrope", sans-serif;
       font-weight: 700;
     }
     h5 {
       font-size: 0.6rem;
+      // font-size: 0.9vw;
       color: $primary-Text !important;
       opacity: 0.8;
     }
@@ -49,15 +51,18 @@ $primary-Text: #737585;
   .uppercase {
     color: #898ba3;
     font-size: 0.45rem;
+    // font-size: 0.75vw;
     font-weight: 700;
     letter-spacing: 1px;
   }
   .no_Of_Cases {
     color: #0e1353;
-    font-size: 1.8rem;
+    font-size: 2rem;
+    // font-size: 2.5vw;
     font-family: "Poppins", sans-serif;
     font-weight: 600;
     margin-left: -2px;
+    // border: 1px solid red;
   }
   .cases__Info {
     width: 100%;
@@ -89,6 +94,7 @@ $primary-Text: #737585;
         .cases {
           margin-left: 5px;
           font-size: 0.65rem;
+          // font-size: 1vw;
           color: $primary-Text;
           font-weight: 700;
         }
@@ -98,6 +104,7 @@ $primary-Text: #737585;
         color: $primary-Text;
         font-weight: 800;
         font-size: 0.8rem;
+        // font-size: 1.2vw;
         font-family: "Manrope", sans-serif;
       }
     }

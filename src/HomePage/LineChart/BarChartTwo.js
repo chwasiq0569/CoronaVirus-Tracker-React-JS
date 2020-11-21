@@ -9,7 +9,7 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
   useEffect(() => {
     const fetchCountryData = (casesState) => {
       fetch(
-        `https://disease.sh/v3/covid-19/historical/${country?.name}?lastdays=15`
+        `https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/historical/${country?.name}?lastdays=15`
       )
         .then((res) => res.json())
         .then((response) => {

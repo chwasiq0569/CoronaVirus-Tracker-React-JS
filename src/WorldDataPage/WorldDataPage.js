@@ -56,7 +56,9 @@ const WorldDataPage = () => {
   const [countries, setCountries] = useState([]);
   const [info, setInfo] = useState([]);
   useEffect(() => {
-    fetch("https://disease.sh/v3/covid-19/countries")
+    fetch(
+      "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries"
+    )
       .then((response) => response.json())
       .then((data) => {
         const countriesData = data.map((countries) => ({
@@ -91,7 +93,7 @@ const WorldDataPage = () => {
   return (
     <div className="worldDataPage__Wrapper">
       <div className="inner__Wrapper">
-        <Sidebar />
+        {/* <Sidebar /> */}
         {countries.length < 1 ? (
           <p style={{ textAlign: "center", letterSpacing: "1px" }}>
             Loading...
