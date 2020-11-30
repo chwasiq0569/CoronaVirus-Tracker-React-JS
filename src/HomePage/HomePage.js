@@ -5,8 +5,9 @@ import "./homepage.scss";
 import { sortData, unitConvert } from "../util/util";
 import LineChart from "./LineChart/LineChart";
 import PlottedMap from "./Map/PlottedMap";
-import LineChartTwo from "./LineChart/BarChartTwo";
+import LineChartTwo from "./LineChart/LineChartTwo";
 import Sidebar from "./../Sidebar/Sidebar";
+import ListItem from "./ListItem/ListItem";
 
 const HomePage = () => {
   //in countries data of all countries stored
@@ -28,7 +29,9 @@ const HomePage = () => {
   const [mapCountries, setMapCountries] = useState([]);
   //mapZoom contains initial zoom of Map
   const [mapZoom, setMapZoom] = useState(3);
+  //casesStateWorldWide is used to plot cases on graph (incase of cases we will plot cases, incase of deaths we will plot deaths, incase of recovered we will plot recovered)
   const [casesStateWorldWide, setcasesStateWorldWide] = useState("cases");
+  //casesStateCountry is used to plot cases on graph (incase of cases we will plot cases, incase of deaths we will plot deaths, incase of recovered we will plot recovered)
   const [casesStateCountry, setcasesStateCountry] = useState("cases");
   // const [selected, setSelected] = useState("");
 
@@ -91,17 +94,8 @@ const HomePage = () => {
     //input is stored inside searchData state
     setSearchData(e.target.value);
     if (e.target.value != "") {
-      // in case of non-empty input
+      // basic searching logic
       countries.forEach(function (country) {
-        // console.log("country:", country?.name.toLowerCase().indexOf("a"));
-        // if (
-        //   country?.name.toLowerCase().indexOf(e.target.value.toLowerCase()) !==
-        //   -1
-        // ) {
-        //   if (queryData.length < 10) {
-        //     queryData.push(country);
-        //   }
-        // }
         if (
           country?.name.toLowerCase().includes(e.target.value.toLowerCase())
         ) {
@@ -140,7 +134,6 @@ const HomePage = () => {
               worldWideData={worldWide}
             />
           </div>
-
           <div className="upper__rightSide">
             <div className="countries__Filter">
               <div className="SearchBar__Container">
@@ -162,46 +155,23 @@ const HomePage = () => {
                 <ul>
                   {searchResultList.length !== 0
                     ? searchResultList.map((country) => (
-                        <li
-                          key={country?.value}
-                          onClick={() => individualCountry(country)}
-                        >
-                          <span>{country?.name}</span>
-                          <span>{unitConvert(country?.cases)}</span>
-                        </li>
-                      ))
-                    : countries.map((country, i) => (
-                        <li
+                        <ListItem
                           key={country?.name}
-                          onClick={() => individualCountry(country)}
-                          className={userToClass(country?.name)}
-                        >
-                          <span>{country?.name}</span>
-                          <span>{unitConvert(country?.cases)}</span>
-                        </li>
+                          onClickEvent={() => individualCountry(country)}
+                          name={country?.name}
+                          cases={unitConvert(country?.cases)}
+                          styleClass={userToClass(country?.name)}
+                        />
+                      ))
+                    : countries.map((country) => (
+                        <ListItem
+                          key={country?.name}
+                          onClickEvent={() => individualCountry(country)}
+                          name={country?.name}
+                          cases={unitConvert(country?.cases)}
+                          styleClass={userToClass(country?.name)}
+                        />
                       ))}
-
-                  {/* {searchResultList.length > 0
-                    ? searchResultList.map((country) => (
-                        <li
-                          key={country?.value}
-                          onClick={() => individualCountry(country)}
-                        >
-                          <span>{country?.name}</span>
-                          <span>{unitConvert(country?.cases)}</span>
-                        </li>
-                      ))
-                    : countries.map((country, i) => (
-                        <li
-                          key={country?.name}
-                          onClick={() => individualCountry(country)}
-                          className={userToClass(country?.name)}
-                        >
-                          <span>{country?.name}</span>
-                          <span>{unitConvert(country?.cases)}</span>
-                        </li>
-                      ))} 
-                    */}
                 </ul>
               </div>
             </div>
