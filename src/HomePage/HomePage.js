@@ -9,22 +9,31 @@ import LineChartTwo from "./LineChart/BarChartTwo";
 import Sidebar from "./../Sidebar/Sidebar";
 
 const HomePage = () => {
+  //in countries data of all countries stored
   const [countries, setCountries] = useState([]);
+  //in selectedCountry data of clicked item will be stored
   const [selectedCountry, setSelectedCountry] = useState(null);
+  //in worldwide state data of another api will be stored / contains data of worldwide (total overall deaths, recoveries, activecases)
   const [worldWide, setWorldWide] = useState(null);
+  //searchData is for storing input value
   const [searchData, setSearchData] = useState("");
+  //searchResultList will contain list of countries returned after search
   const [searchResultList, setSearchResultList] = useState([]);
+  //mapCenter contain central location of map
   const [mapCenter, setMapCenter] = useState({
     lat: 37.09024,
     lng: -95.7128919,
   });
+  //mapCenter contain central location of map
   const [mapCountries, setMapCountries] = useState([]);
+  //mapZoom contains initial zoom of Map
   const [mapZoom, setMapZoom] = useState(3);
   const [casesStateWorldWide, setcasesStateWorldWide] = useState("cases");
   const [casesStateCountry, setcasesStateCountry] = useState("cases");
-  const [selected, setSelected] = useState("");
+  // const [selected, setSelected] = useState("");
 
   useEffect(() => {
+    //fetching worldwide data
     fetch(
       "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/all"
     )
@@ -38,6 +47,7 @@ const HomePage = () => {
           deaths: data.deaths,
         });
       });
+    //fetching data of all countries
     fetch(
       "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries"
     )
@@ -51,18 +61,23 @@ const HomePage = () => {
           active: countries?.active,
           recovered: countries?.recovered,
           deaths: countries?.deaths,
-          lat: countries?.countryInfo?.lat,
-          long: countries?.countryInfo?.long,
+          lat: countries?.countryInfo?.lat, // we need this for plotting graph
+          long: countries?.countryInfo?.long, // we need this for plotting graph
         }));
+        //sortData is utility function that will sort data based on number of cases (in descending order)
         const sortedData = sortData(countries);
-        console.log(sortedData);
+        //sorted data is stored in countries state
         setCountries(sortedData);
+        //at first before selecting any country result of country at index 0 will be dispalyed (the countries with higher no of cases)
         setSelectedCountry(sortedData[0]);
       });
   }, []);
+
+  //this function will set classNames
+  //the className of "selected" will be given to selected Country
   function userToClass(user = "USA") {
     var userClass = "";
-    console.log(selectedCountry);
+    // console.log(selectedCountry);
     if (user === selectedCountry?.name) {
       userClass = "selected";
     } else {
@@ -70,49 +85,34 @@ const HomePage = () => {
     }
     return userClass;
   }
+
   const searchDataFunc = (e) => {
     var queryData = [];
+    //input is stored inside searchData state
     setSearchData(e.target.value);
     if (e.target.value != "") {
+      // in case of non-empty input
       countries.forEach(function (country) {
+        // console.log("country:", country?.name.toLowerCase().indexOf("a"));
+        // if (
+        //   country?.name.toLowerCase().indexOf(e.target.value.toLowerCase()) !==
+        //   -1
+        // ) {
+        //   if (queryData.length < 10) {
+        //     queryData.push(country);
+        //   }
+        // }
         if (
-          country?.name.toLowerCase().indexOf(e.target.value.toLowerCase()) !==
-          -1
+          country?.name.toLowerCase().includes(e.target.value.toLowerCase())
         ) {
-          if (queryData.length < 10) {
-            queryData.push(country);
-          }
+          queryData.push(country);
         }
       });
     }
-    console.log("queryData:", queryData);
+    // console.log("queryData:", queryData);
     setSearchResultList(queryData);
     // this.setState({ list: queryData });
   };
-
-  // useEffect(() => {
-  //   fetch(
-  //     "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries"
-  //   )
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setMapCountries(data);
-  //       const countries = data.map((countries) => ({
-  //         name: countries?.country,
-  //         value: countries?.countryInfo?.iso3,
-  //         cases: countries?.cases,
-  //         active: countries?.active,
-  //         recovered: countries?.recovered,
-  //         deaths: countries?.deaths,
-  //         lat: countries?.countryInfo?.lat,
-  //         long: countries?.countryInfo?.long,
-  //       }));
-  //       const sortedData = sortData(countries);
-  //       console.log(sortedData);
-  //       setCountries(sortedData);
-  //       setSelectedCountry(sortedData[0]);
-  //     });
-  // }, []);
 
   const individualCountry = (country) => {
     setSelectedCountry(country);
@@ -123,7 +123,6 @@ const HomePage = () => {
   return (
     <div className="homePage__Wrapper">
       <div className="inner__Wrapper">
-        {/* <Sidebar /> */}
         <div className="upper__Section">
           <div className="upper__leftSide">
             <Card
@@ -161,7 +160,7 @@ const HomePage = () => {
               </div>
               <div className="countries__List">
                 <ul>
-                  {searchResultList.length > 0
+                  {searchResultList.length !== 0
                     ? searchResultList.map((country) => (
                         <li
                           key={country?.value}
@@ -181,6 +180,28 @@ const HomePage = () => {
                           <span>{unitConvert(country?.cases)}</span>
                         </li>
                       ))}
+
+                  {/* {searchResultList.length > 0
+                    ? searchResultList.map((country) => (
+                        <li
+                          key={country?.value}
+                          onClick={() => individualCountry(country)}
+                        >
+                          <span>{country?.name}</span>
+                          <span>{unitConvert(country?.cases)}</span>
+                        </li>
+                      ))
+                    : countries.map((country, i) => (
+                        <li
+                          key={country?.name}
+                          onClick={() => individualCountry(country)}
+                          className={userToClass(country?.name)}
+                        >
+                          <span>{country?.name}</span>
+                          <span>{unitConvert(country?.cases)}</span>
+                        </li>
+                      ))} 
+                    */}
                 </ul>
               </div>
             </div>

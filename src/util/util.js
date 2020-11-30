@@ -10,6 +10,7 @@ export const sortData = (data) => {
     if (a.cases > b.cases) {
       return -1;
     } else {
+      // console.log("a: ", a, "b: ", b);
       return 1;
     }
   });
