@@ -3,10 +3,10 @@ import { Line } from "react-chartjs-2";
 import numeral from "numeral";
 const LineChart = ({ casesStateWorldWide }) => {
   //casesStateWorldWide  can contain string "cases" || "deaths"||  "recovered"
-  const [keyArr, setKeyArr] = useState([]);
-  const [valueArr, setValueArr] = useState([]);
-  let valueArrTemp = []; // just for temporary storage
-  let keyArrTemp = []; // just for temporary storage
+  const [keyArr, setKeyArr] = useState([]); // contain dates
+  const [valueArr, setValueArr] = useState([]); //contain cases
+  let valueArrTemp = []; // just for temporary storage contain dates
+  let keyArrTemp = []; // just for temporary storage contain cases
 
   useEffect(() => {
     const fetchData = async (casesState) => {
@@ -50,11 +50,11 @@ const LineChart = ({ casesStateWorldWide }) => {
   }, [casesStateWorldWide]);
 
   const dataChartCases = {
-    labels: keyArr,
+    labels: keyArr, // x-axis
     datasets: [
       {
         label: "Covid 19 Deaths Worldwide in last 15 Days",
-        data: valueArr,
+        data: valueArr, // y-axis
         backgroundColor: "transparent",
         borderColor: "#6b7add",
       },
@@ -84,6 +84,7 @@ const LineChart = ({ casesStateWorldWide }) => {
   };
 
   const returnChart = () => {
+    // the chart will be updating casesStateWorldWide
     if (casesStateWorldWide === "cases") {
       return dataChartCases;
     }
@@ -101,7 +102,7 @@ const LineChart = ({ casesStateWorldWide }) => {
     },
     elements: {
       point: {
-        radius: 0,
+        radius: 4,
       },
     },
     maintainAspectRatio: false,
@@ -109,6 +110,7 @@ const LineChart = ({ casesStateWorldWide }) => {
       mode: "index",
       intersect: false,
       callbacks: {
+        //label will be appeared on hovering chart
         label: function (tooltipItem, data) {
           return numeral(tooltipItem.value).format("+0,0");
         },
