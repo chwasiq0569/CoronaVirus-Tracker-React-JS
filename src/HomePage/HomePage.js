@@ -8,6 +8,7 @@ import PlottedMap from "./Map/PlottedMap";
 import LineChartTwo from "./LineChart/LineChartTwo";
 import Sidebar from "./../Sidebar/Sidebar";
 import ListItem from "./ListItem/ListItem";
+import ChartRenderer from "./LineChart/ChartRenderer";
 
 const HomePage = () => {
   //in countries data of all countries stored
@@ -105,7 +106,6 @@ const HomePage = () => {
     }
     // console.log("queryData:", queryData);
     setSearchResultList(queryData);
-    // this.setState({ list: queryData });
   };
 
   const individualCountry = (country) => {
@@ -188,13 +188,37 @@ const HomePage = () => {
         </div>
         <div className="lower__Section">
           <div className="leftSide">
-            <LineChart casesStateWorldWide={casesStateWorldWide} />
+            {/* <LineChart casesStateWorldWide={casesStateWorldWide} /> */}
+            <ChartRenderer
+              render={(returnChart, options, country) => (
+                <LineChart returnChart={returnChart} options={options} />
+              )}
+              casesStateWorldWide={casesStateWorldWide}
+              apiInstance={
+                "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/historical/all?lastdays=15"
+              }
+            />
           </div>
           <div className="rightSide">
             <LineChartTwo
               casesStateCountry={casesStateCountry}
               country={selectedCountry}
             />
+
+            {/* <ChartRenderer
+              render={(returnChart, options, country) => (
+                <LineChartTwo
+                  returnChart={returnChart}
+                  options={options}
+                  country={country}
+                />
+              )}
+              casesStateWorldWide={casesStateCountry}
+              country={selectedCountry}
+              apiInstance={`https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/historical/${
+                selectedCountry?.name
+              }?lastdays=${selectedCountry?.cases < 85000 ? 7 : 15}`}
+            /> */}
           </div>
         </div>
       </div>

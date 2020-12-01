@@ -22,13 +22,14 @@ const News = () => {
     "innerRightSideRow4",
   ]);
 
+  console.log("News Loaded");
   useEffect(() => {
     const fetchData = async () => {
       const api = await fetch(
         "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/vaccine"
       );
       const response = await api.json();
-      console.log("response.data: ", response.data);
+      console.log("response.data: ", response);
       setData(response);
     };
     fetchData();
