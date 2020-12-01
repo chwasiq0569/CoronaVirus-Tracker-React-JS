@@ -31,6 +31,7 @@ const useStyles = makeStyles({
     fontWeight: "550",
   },
 });
+//name of columns
 function createData(
   country,
   totalcases,
@@ -61,7 +62,9 @@ const WorldDataPage = () => {
     )
       .then((response) => response.json())
       .then((data) => {
+        //countriesData is an array
         const countriesData = data.map((countries) => ({
+          //created object
           name: countries.country,
           value: countries.countryInfo.iso3,
           cases: countries.cases,
@@ -72,6 +75,7 @@ const WorldDataPage = () => {
           recovered: countries.recovered,
           seriouscritical: countries.critical,
         }));
+        // console.log("countriesData: ", countriesData);
         const sortedData = sortData(countriesData);
         setCountries(sortedData);
         console.log("countries: ", sortedData);

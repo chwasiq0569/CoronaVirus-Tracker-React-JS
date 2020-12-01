@@ -4,6 +4,7 @@ import { Circle, Popup } from "react-leaflet";
 import "./util.scss";
 import CasesInfo from "./CasesInfo";
 
+//sort cases in descendin order
 export const sortData = (data) => {
   const sortedData = [...data];
   sortedData.sort((a, b) => {
@@ -36,23 +37,31 @@ const casesTypeColors = {
 };
 
 export const plottingDataOnMap = (data, casesType = "cases") => {
+  //data contain countries
   return data.map((country) => (
+    // imported Circle and Popup from leaflet library
     <Circle
       key={country.country}
       center={[country.countryInfo.lat, country.countryInfo.long]}
       fillOpacity={0.4}
+      //casesTypeColors is object that contains circle colors
       color={casesTypeColors[casesType].hex}
       fillColor={casesTypeColors[casesType].hex}
+      //here in radius i basically applied formula
+      //country[casesType] = country.cases (number of cases)
+      //casesTypeColors[casesType].multiplier = 800 || 1200 || 2000
       radius={
         Math.sqrt(country[casesType]) * casesTypeColors[casesType].multiplier
       }
     >
+      {/* popup will appear on clicking circle */}
       <Popup>
         <div className="popUp_Container">
           <div className="heading">
             <h4>{country.country}</h4>
             <h4>{numeral(country.cases).format("0,0")}</h4>
           </div>
+          {/* worldwide prop will be used to conditionally render some styles and for applying some classes */}
           <CasesInfo country={country} worldWide={false} />
         </div>
       </Popup>

@@ -7,6 +7,8 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
   let keyArrTemp = [];
   let valueArrTemp = [];
   useEffect(() => {
+    let isMounted = true; // track whether component is mounted
+
     const fetchCountryData = (casesState) => {
       fetch(
         `https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/historical/${country?.name}?lastdays=15`
@@ -22,12 +24,18 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
             }
             lastData = response?.timeline[casesState][key];
           }
-          setKeyArr(keyArrTemp);
-          setValueArr(valueArrTemp);
+          if (isMounted) {
+            setKeyArr(keyArrTemp);
+            setValueArr(valueArrTemp);
+          }
         })
         .catch((error) => console.log(error));
     };
     country && casesStateCountry && fetchCountryData(casesStateCountry);
+    return () => {
+      // clean up
+      isMounted = false;
+    };
   }, [casesStateCountry, country]);
 
   const dataChartCases = {
@@ -82,7 +90,7 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
     },
     elements: {
       point: {
-        radius: 0,
+        radius: 4,
       },
     },
     maintainAspectRatio: false,

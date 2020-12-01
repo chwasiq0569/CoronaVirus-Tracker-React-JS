@@ -6,7 +6,7 @@ import ChatOutlinedIcon from "@material-ui/icons/ChatOutlined";
 import LanguageIcon from "@material-ui/icons/Language";
 import { NavLink, useLocation } from "react-router-dom";
 const Sidebar = () => {
-  const [activeLink, setActiveLink] = useState("home");
+  // const [activeLink, setActiveLink] = useState("home");
   const { pathname } = useLocation();
   console.log("pathname: ", pathname);
   return (

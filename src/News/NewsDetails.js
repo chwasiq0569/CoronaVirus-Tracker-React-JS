@@ -12,9 +12,6 @@ const NewsDetails = ({ match, history }) => {
   }
   return (
     <div className="newsDetails__Wrapper">
-      {/* <div style={{ border: "2px solid red" }}>
-        <Sidebar />
-      </div> */}
       <div className="inner__Wrapper">
         <h1 className="candidate">{state?.candidate}</h1>
         <p className="explaination">{truncate(state?.details, 800)}</p>

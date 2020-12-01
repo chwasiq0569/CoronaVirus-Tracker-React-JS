@@ -24,6 +24,7 @@ const News = () => {
 
   console.log("News Loaded");
   useEffect(() => {
+    let isMounted = true; // track whether component is mounted
     const fetchData = async () => {
       const api = await fetch(
         "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/vaccine"
@@ -33,6 +34,10 @@ const News = () => {
       setData(response);
     };
     fetchData();
+    return () => {
+      // clean up
+      isMounted = false;
+    };
   }, []);
 
   function truncate(str, n) {

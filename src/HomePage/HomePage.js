@@ -26,7 +26,7 @@ const HomePage = () => {
     lat: 37.09024,
     lng: -95.7128919,
   });
-  //mapCenter contain central location of map
+  //contain countries to plot on Map
   const [mapCountries, setMapCountries] = useState([]);
   //mapZoom contains initial zoom of Map
   const [mapZoom, setMapZoom] = useState(3);
@@ -38,18 +38,21 @@ const HomePage = () => {
 
   useEffect(() => {
     //fetching worldwide data
+    let isMounted = true; // track whether component is mounted
     fetch(
       "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/all"
     )
       .then((response) => response.json())
       .then((data) => {
-        setWorldWide({
-          name: "Worldwide",
-          cases: data.cases,
-          active: data.active,
-          recovered: data.recovered,
-          deaths: data.deaths,
-        });
+        if (isMounted) {
+          setWorldWide({
+            name: "Worldwide",
+            cases: data.cases,
+            active: data.active,
+            recovered: data.recovered,
+            deaths: data.deaths,
+          });
+        }
       });
     //fetching data of all countries
     fetch(
@@ -57,7 +60,9 @@ const HomePage = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        setMapCountries(data);
+        if (isMounted) {
+          setMapCountries(data);
+        }
         const countries = data.map((countries) => ({
           name: countries?.country,
           value: countries?.countryInfo?.iso3,
@@ -71,10 +76,16 @@ const HomePage = () => {
         //sortData is utility function that will sort data based on number of cases (in descending order)
         const sortedData = sortData(countries);
         //sorted data is stored in countries state
-        setCountries(sortedData);
+        if (isMounted) {
+          setCountries(sortedData);
+        }
         //at first before selecting any country result of country at index 0 will be dispalyed (the countries with higher no of cases)
         setSelectedCountry(sortedData[0]);
       });
+    return () => {
+      // clean up
+      isMounted = false;
+    };
   }, []);
 
   //this function will set classNames
@@ -180,7 +191,7 @@ const HomePage = () => {
                 mapCountries={mapCountries}
                 mapCenter={mapCenter}
                 mapZoom={mapZoom}
-                casesStateWorldWide={casesStateWorldWide}
+                // casesStateWorldWide={casesStateWorldWide}
                 casesStateCountry={casesStateCountry}
               />
             </div>

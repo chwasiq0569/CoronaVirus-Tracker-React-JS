@@ -14,6 +14,7 @@ const PlottedMap = ({
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
       />
+      {/* plottingDataOnMap function willl plot circles on map and show popup */}
       {plottingDataOnMap(mapCountries, casesStateCountry)}
     </Map>
   );

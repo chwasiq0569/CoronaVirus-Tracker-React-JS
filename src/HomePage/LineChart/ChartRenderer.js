@@ -10,6 +10,7 @@ const ChartRenderer = (props) => {
   let keyArrTemp = []; // just for temporary storage contain cases
 
   useEffect(() => {
+    let isMounted = true; // track whether component is mounted
     const fetchData = async (casesState) => {
       //this api will fetch historical data of last 15 days
       const api = await fetch(apiInstance);
@@ -40,12 +41,19 @@ const ChartRenderer = (props) => {
         lastData1 = response[casesState][key];
         // console.log("valueArrTemp: ", valueArrTemp);
       }
-      setKeyArr(keyArrTemp);
-      setValueArr(valueArrTemp);
+      if (isMounted) {
+        setKeyArr(keyArrTemp);
+        setValueArr(valueArrTemp);
+      }
       //thats how we will plot the number of cases are dropping or increasing
       //this will render incase of cases by worldwide
     };
     casesStateWorldWide && fetchData(casesStateWorldWide);
+
+    return () => {
+      // clean up
+      isMounted = false;
+    };
   }, [casesStateWorldWide]);
 
   const dataChartCases = {
