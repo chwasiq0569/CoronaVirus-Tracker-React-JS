@@ -8,11 +8,11 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
   let valueArrTemp = [];
   useEffect(() => {
     let isMounted = true; // track whether component is mounted
-
     const fetchCountryData = (casesState) => {
-      fetch(
+      const api = fetch(
         `https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/historical/${country?.name}?lastdays=15`
-      )
+      );
+      api
         .then((res) => res.json())
         .then((response) => {
           let lastData = 0;

@@ -125,14 +125,12 @@ const HomePage = () => {
         }
       });
     }
-    // console.log("queryData:", queryData);
     setSearchResultList(queryData);
   };
 
   const individualCountry = (country) => {
     setSelectedCountry(country);
     setMapCenter({ lat: country?.lat, lng: country?.long });
-    console.log(country);
   };
 
   return (
@@ -201,7 +199,6 @@ const HomePage = () => {
                 mapCountries={mapCountries}
                 mapCenter={mapCenter}
                 mapZoom={mapZoom}
-                // casesStateWorldWide={casesStateWorldWide}
                 casesStateCountry={casesStateCountry}
               />
             </div>
@@ -209,7 +206,6 @@ const HomePage = () => {
         </div>
         <div className="lower__Section">
           <div className="leftSide">
-            {/* <LineChart casesStateWorldWide={casesStateWorldWide} /> */}
             <ChartRenderer
               render={(returnChart, options, country) => (
                 <LineChart returnChart={returnChart} options={options} />
