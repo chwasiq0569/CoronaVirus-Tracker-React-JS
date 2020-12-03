@@ -55,6 +55,16 @@ const HomePage = () => {
         }
       });
     //fetching data of all countries
+
+    return () => {
+      // clean up
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true; // track whether component is mounted
+
     fetch(
       "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries"
     )
@@ -215,21 +225,6 @@ const HomePage = () => {
               casesStateCountry={casesStateCountry}
               country={selectedCountry}
             />
-
-            {/* <ChartRenderer
-              render={(returnChart, options, country) => (
-                <LineChartTwo
-                  returnChart={returnChart}
-                  options={options}
-                  country={country}
-                />
-              )}
-              casesStateWorldWide={casesStateCountry}
-              country={selectedCountry}
-              apiInstance={`https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/historical/${
-                selectedCountry?.name
-              }?lastdays=${selectedCountry?.cases < 85000 ? 7 : 15}`}
-            /> */}
           </div>
         </div>
       </div>

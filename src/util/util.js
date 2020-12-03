@@ -4,6 +4,10 @@ import { Circle, Popup } from "react-leaflet";
 import "./util.scss";
 import CasesInfo from "./CasesInfo";
 
+export function truncate(str, n) {
+  return str?.length > n ? str.substr(0, n - 1) + "....." : str;
+}
+
 //sort cases in descendin order
 export const sortData = (data) => {
   const sortedData = [...data];

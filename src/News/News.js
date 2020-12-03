@@ -5,7 +5,8 @@ import Sidebar from "../Sidebar/Sidebar";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { makeStyles } from "@material-ui/core/styles";
 import { v4 as uuidv4 } from "uuid";
-
+import IndividualNews from "./IndividualNews";
+import { truncate } from "../util/util";
 const useStyles = makeStyles({
   root: {
     width: 300,
@@ -40,20 +41,14 @@ const News = () => {
     };
   }, []);
 
-  function truncate(str, n) {
-    return str?.length > n ? str.substr(0, n - 1) + "....." : str;
-  }
-
   return (
     <div className="newsPage__Wrapper">
       <div className="inner__Wrapper">
-        {/* <Sidebar /> */}
         <div className="leftSide">
           <div className="innerLeftSide">
             {!data ? (
               <Skeleton variant="rect" width="100%" height="70%" />
             ) : (
-              // <Skeleton variant="rect" width="100%" height="70%" />
               <NavLink
                 to={{
                   pathname: `importantinfo/${data?.data[1]?.candidate}`,
@@ -136,19 +131,7 @@ const News = () => {
                 if (i > 22 && i <= 26) {
                   return (
                     <div className="innerRightSideRow1" key={uuidv4()}>
-                      <NavLink
-                        to={{
-                          pathname: `importantinfo/${data?.candidate}`,
-                          state: data,
-                        }}
-                        style={{
-                          textDecoration: "none",
-                        }}
-                      >
-                        <h3> {data?.candidate}</h3>
-                        <p className="funding">{data?.mechanism}</p>
-                        <p className="details">{truncate(data?.details, 45)}</p>
-                      </NavLink>
+                      <IndividualNews data={data} />
                     </div>
                   );
                 }
@@ -169,15 +152,7 @@ const News = () => {
               if (i === 11 || i === 13 || i === 14 || i === 17) {
                 return (
                   <div className="rightSideData" key={uuidv4()}>
-                    <NavLink
-                      to={{
-                        pathname: `importantinfo/${data?.candidate}`,
-                        state: data,
-                      }}
-                      style={{ textDecoration: "none", color: "white" }}
-                    >
-                      <p className="news">{data?.mechanism}</p>
-                    </NavLink>
+                    <IndividualNews data={data} type="rightCornerNews" />
                   </div>
                 );
               }
