@@ -115,7 +115,7 @@ const HomePage = () => {
     var queryData = [];
     //input is stored inside searchData state
     setSearchData(e.target.value);
-    if (e.target.value != "") {
+    if (e.target.value !== "") {
       // basic searching logic
       countries.forEach(function (country) {
         if (
@@ -207,8 +207,12 @@ const HomePage = () => {
         <div className="lower__Section">
           <div className="leftSide">
             <ChartRenderer
-              render={(returnChart, options, country) => (
-                <LineChart returnChart={returnChart} options={options} />
+              render={(returnChart, options, loadingState) => (
+                <LineChart
+                  returnChart={returnChart}
+                  options={options}
+                  loadingState={loadingState}
+                />
               )}
               casesStateWorldWide={casesStateWorldWide}
               apiInstance={

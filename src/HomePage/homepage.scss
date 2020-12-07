@@ -10,7 +10,13 @@ $bg-Shade: #dee0f4;
   padding: 0;
   box-sizing: border-box;
 }
-
+.spinnerWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .homePage__Wrapper {
   width: calc(100% - 4.5rem);
   height: calc(100vh - 3.6rem);

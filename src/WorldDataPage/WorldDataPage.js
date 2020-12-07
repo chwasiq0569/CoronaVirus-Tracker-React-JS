@@ -12,6 +12,7 @@ import numeral from "numeral";
 import Sidebar from "./../Sidebar/Sidebar";
 import { sortData } from "./../util/util";
 import Skeleton from "@material-ui/lab/Skeleton";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles({
   table: {
@@ -56,7 +57,10 @@ function createData(
 const WorldDataPage = () => {
   const [countries, setCountries] = useState([]);
   const [info, setInfo] = useState([]);
+  const [loadingState, setLoadingState] = useState(true);
+
   useEffect(() => {
+    setLoadingState(true);
     fetch(
       "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries"
     )
@@ -78,7 +82,7 @@ const WorldDataPage = () => {
         // console.log("countriesData: ", countriesData);
         const sortedData = sortData(countriesData);
         setCountries(sortedData);
-        console.log("countries: ", sortedData);
+        setLoadingState(false);
       });
   }, []);
   let data = countries.map((e) =>
@@ -98,10 +102,10 @@ const WorldDataPage = () => {
     <div className="worldDataPage__Wrapper">
       <div className="inner__Wrapper">
         {/* <Sidebar /> */}
-        {countries.length < 1 ? (
-          <p style={{ textAlign: "center", letterSpacing: "1px" }}>
-            Loading...
-          </p>
+        {loadingState ? (
+          <div className="spinnerWrapper">
+            <CircularProgress />
+          </div>
         ) : (
           <TableContainer className="custom" component={Paper}>
             <Table

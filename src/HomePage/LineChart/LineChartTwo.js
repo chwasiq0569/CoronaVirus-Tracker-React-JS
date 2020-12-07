@@ -35,6 +35,7 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
             setKeyArr(keyArrTemp);
             setValueArr(valueArrTemp);
             setLoadingState(false);
+            console.log("keyArr: ", keyArr);
           }
         })
         .catch((error) => console.log(error));

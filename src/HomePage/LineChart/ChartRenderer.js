@@ -6,6 +6,8 @@ const ChartRenderer = (props) => {
   //casesStateWorldWide  can contain string "cases" || "deaths"||  "recovered"
   const [keyArr, setKeyArr] = useState([]); // contain dates
   const [valueArr, setValueArr] = useState([]); //contain cases
+  const [loadingState, setLoadingState] = useState(true);
+
   let valueArrTemp = []; // just for temporary storage contain dates
   let keyArrTemp = []; // just for temporary storage contain cases
 
@@ -13,6 +15,7 @@ const ChartRenderer = (props) => {
     let isMounted = true; // track whether component is mounted
     const fetchData = async (casesState) => {
       //this api will fetch historical data of last 15 days
+      setLoadingState(true);
       const api = await fetch(apiInstance);
       const response = await api.json();
       //inside response we will get object containing 3 objects like
@@ -44,6 +47,7 @@ const ChartRenderer = (props) => {
       if (isMounted) {
         setKeyArr(keyArrTemp);
         setValueArr(valueArrTemp);
+        setLoadingState(false);
       }
       //thats how we will plot the number of cases are dropping or increasing
       //this will render incase of cases by worldwide
@@ -149,7 +153,7 @@ const ChartRenderer = (props) => {
     },
   };
 
-  return <>{props.render(returnChart, options)}</>;
+  return <>{props.render(returnChart, options, loadingState)}</>;
 };
 
 export default ChartRenderer;
