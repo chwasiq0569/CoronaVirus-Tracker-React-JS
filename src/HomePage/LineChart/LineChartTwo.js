@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import numeral from "numeral";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { LocalDining } from "@material-ui/icons";
 const LineChartTwo = ({ casesStateCountry, country }) => {
   const [keyArr, setKeyArr] = useState([]);
   const [valueArr, setValueArr] = useState([]);
+  const [loadingState, setLoadingState] = useState(true);
   let keyArrTemp = [];
   let valueArrTemp = [];
   useEffect(() => {
     let isMounted = true; // track whether component is mounted
     const fetchCountryData = (casesState) => {
+      console.log("Started Fetching");
+      // setKeyArr([]);
+      // setValueArr([]);
+      setLoadingState(true);
       const api = fetch(
         `https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/historical/${country?.name}?lastdays=15`
       );
@@ -27,6 +34,7 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
           if (isMounted) {
             setKeyArr(keyArrTemp);
             setValueArr(valueArrTemp);
+            setLoadingState(false);
           }
         })
         .catch((error) => console.log(error));
@@ -130,10 +138,21 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
   };
 
   return (
-    <div style={{ height: "auto", width: "100%" }}>
-      {returnChart && (
-        <Line data={() => returnChart()} height={120} options={options} />
-      )}
+    <div
+      style={{
+        height: "auto",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {returnChart &&
+        (!loadingState ? (
+          <Line data={() => returnChart()} height={120} options={options} />
+        ) : (
+          <CircularProgress />
+        ))}
     </div>
   );
 };
