@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import numeral from "numeral";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { LocalDining } from "@material-ui/icons";
+
 const LineChartTwo = ({ casesStateCountry, country }) => {
   const [keyArr, setKeyArr] = useState([]);
   const [valueArr, setValueArr] = useState([]);
