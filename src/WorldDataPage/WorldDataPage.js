@@ -83,7 +83,8 @@ const WorldDataPage = () => {
         const sortedData = sortData(countriesData);
         setCountries(sortedData);
         setLoadingState(false);
-      });
+      })
+      .catch((error) => console.log("Error Occured"));
   }, []);
   let data = countries.map((e) =>
     createData(

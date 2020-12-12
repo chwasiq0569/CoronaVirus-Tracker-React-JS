@@ -53,6 +53,29 @@ const HomePage = () => {
             deaths: data.deaths,
           });
         }
+      })
+      .catch((err) => {
+        console.log("Error Occured: ", err);
+        //if above call failed then call this api
+        //honestly I dont know this is good approach or bad but the only solution i found
+        console.log("Started 2nd Fetch");
+        let isMounted = true; // track whether component is mounted
+        fetch(
+          "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/all"
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            if (isMounted) {
+              setWorldWide({
+                name: "Worldwide",
+                cases: data.cases,
+                active: data.active,
+                recovered: data.recovered,
+                deaths: data.deaths,
+              });
+            }
+          })
+          .catch((err) => console.log("2nd Request is also Failed: ", err));
       });
     //fetching data of all countries
 
@@ -64,7 +87,6 @@ const HomePage = () => {
 
   useEffect(() => {
     let isMounted = true; // track whether component is mounted
-
     fetch(
       "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries"
     )
@@ -91,6 +113,42 @@ const HomePage = () => {
         }
         //at first before selecting any country result of country at index 0 will be dispalyed (the countries with higher no of cases)
         setSelectedCountry(sortedData[0]);
+      })
+      .catch((err) => {
+        console.log("Error Occured: ", err);
+        //if above call failed then call this api
+        //honestly I dont know this is good approach or bad but the only solution i found
+        console.log("Started 2nd Fetch");
+
+        let isMounted = true; // track whether component is mounted
+        fetch(
+          "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries"
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            if (isMounted) {
+              setMapCountries(data);
+            }
+            const countries = data.map((countries) => ({
+              name: countries?.country,
+              value: countries?.countryInfo?.iso3,
+              cases: countries?.cases,
+              active: countries?.active,
+              recovered: countries?.recovered,
+              deaths: countries?.deaths,
+              lat: countries?.countryInfo?.lat, // we need this for plotting graph
+              long: countries?.countryInfo?.long, // we need this for plotting graph
+            }));
+            //sortData is utility function that will sort data based on number of cases (in descending order)
+            const sortedData = sortData(countries);
+            //sorted data is stored in countries state
+            if (isMounted) {
+              setCountries(sortedData);
+            }
+            //at first before selecting any country result of country at index 0 will be dispalyed (the countries with higher no of cases)
+            setSelectedCountry(sortedData[0]);
+          })
+          .catch((err) => console.log("2nd Request is also Failed: ", err));
       });
     return () => {
       // clean up
