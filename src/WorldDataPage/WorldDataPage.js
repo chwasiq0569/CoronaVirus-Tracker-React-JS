@@ -81,9 +81,7 @@ const WorldDataPage = () => {
         //honestly I dont know this is good approach or bad but the only solution i found
         console.log("Another Fetch Started");
         setLoadingState(true);
-        fetch(
-          "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries"
-        )
+        fetch("https://disease.sh/v3/covid-19/countries")
           .then((response) => response.json())
           .then((data) => {
             //countriesData is an array
