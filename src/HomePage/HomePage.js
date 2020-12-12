@@ -121,9 +121,7 @@ const HomePage = () => {
         console.log("Started 2nd Fetch");
 
         isMounted = true; // track whether component is mounted
-        fetch(
-          "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries"
-        )
+        fetch("https://disease.sh/v3/covid-19/countries")
           .then((response) => response.json())
           .then((data) => {
             if (isMounted) {
