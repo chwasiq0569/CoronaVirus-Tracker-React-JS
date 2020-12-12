@@ -31,6 +31,28 @@ const ChartRenderer = (props) => {
             keyArrTemp,
             valueArrTemp
           );
+        })
+        .catch((err) => {
+          console.log("Error Occured: ", err);
+          console.log("2nd Fetch Started");
+          const api = fetch(
+            "https://disease.sh/v3/covid-19/historical/all?lastdays=15"
+          );
+          api
+            .then((res) => res.json())
+            .then((response) => {
+              savingFetchedDataInStates(
+                response,
+                casesState,
+                isMounted,
+                setKeyArr,
+                setValueArr,
+                setLoadingState,
+                keyArrTemp,
+                valueArrTemp
+              );
+            })
+            .catch((err) => console.log("2nd Fetch Failed: ", err));
         });
     };
     casesStateWorldWide && fetchData(casesStateWorldWide);
