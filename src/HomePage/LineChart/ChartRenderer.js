@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import numeral from "numeral";
+import { savingFetchedDataInStates } from "../../util/util";
 
 const ChartRenderer = (props) => {
   const { casesStateWorldWide, apiInstance } = props;
@@ -20,40 +21,17 @@ const ChartRenderer = (props) => {
       api
         .then((res) => res.json())
         .then((response) => {
-          let lastData1 = 0;
-          //this will render incase of cases by country
-          for (let key in response[casesState]) {
-            //here we want to access values of response.cases.keys
-            //here keys are dates and values are cases
-            //like 11/16/20 : 55030781
-            keyArrTemp.push(key);
-            //response[casesState][key] will return cases(values) with respect to keys(dates)
-            //if we place lastData = response[casesState][key]; before if condition it will return 0 after every subtration
-            if (lastData1) {
-              lastData1 = response[casesState][key] - lastData1;
-              valueArrTemp.push(lastData1);
-            }
-            lastData1 = response[casesState][key];
-            // console.log("valueArrTemp: ", valueArrTemp);
-          }
-          if (isMounted) {
-            setKeyArr(keyArrTemp);
-            setValueArr(valueArrTemp);
-            setLoadingState(false);
-          }
-          //thats how we will plot the number of cases are dropping or increasing
-          //this will render incase of cases by worldwide
+          savingFetchedDataInStates(
+            response,
+            casesState,
+            isMounted,
+            setKeyArr,
+            setValueArr,
+            setLoadingState,
+            keyArrTemp,
+            valueArrTemp
+          );
         });
-      // const response = await api.json();
-      //inside response we will get object containing 3 objects like
-      /* response = {
-        cases: {},
-        deaths: {},
-        recovered: {}
-      } */
-      // As we know
-      //response[casesState] means response.casesState or response.cases (if casesState contains "cases")
-      //and we used [] notion to access values dynamically
     };
     casesStateWorldWide && fetchData(casesStateWorldWide);
 
