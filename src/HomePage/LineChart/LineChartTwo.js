@@ -25,7 +25,7 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
         .then((res) => res.json())
         .then((response) => {
           savingFetchedDataInStates(
-            response,
+            response.timeline,
             casesState,
             isMounted,
             setKeyArr,

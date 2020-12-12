@@ -19,13 +19,13 @@ export const savingFetchedDataInStates = (
   valueArrTemp
 ) => {
   let lastData = 0;
-  for (let key in response?.timeline[casesState]) {
+  for (let key in response[casesState]) {
     keyArrTemp.push(key);
     if (lastData) {
-      lastData = response?.timeline[casesState][key] - lastData;
+      lastData = response[casesState][key] - lastData;
       valueArrTemp.push(lastData);
     }
-    lastData = response?.timeline[casesState][key];
+    lastData = response[casesState][key];
   }
   if (isMounted) {
     setKeyArr(keyArrTemp);
