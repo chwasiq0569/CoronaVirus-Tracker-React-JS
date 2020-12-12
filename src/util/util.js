@@ -7,7 +7,20 @@ import CasesInfo from "./CasesInfo";
 export function truncate(str, n) {
   return str?.length > n ? str.substr(0, n - 1) + "....." : str;
 }
-
+export const mapCountriesData = (data) => {
+  return data.map((countries) => ({
+    //created object
+    name: countries.country,
+    value: countries.countryInfo.iso3,
+    cases: countries.cases,
+    newcases: countries.todayCases,
+    deaths: countries.deaths,
+    newdeaths: countries.todayDeaths,
+    active: countries.active,
+    recovered: countries.recovered,
+    seriouscritical: countries.critical,
+  }));
+};
 //sort cases in descendin order
 export const sortData = (data) => {
   const sortedData = [...data];

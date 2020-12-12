@@ -13,6 +13,7 @@ import Sidebar from "./../Sidebar/Sidebar";
 import { sortData } from "./../util/util";
 import Skeleton from "@material-ui/lab/Skeleton";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { mapCountriesData } from "../util/util";
 
 const useStyles = makeStyles({
   table: {
@@ -60,6 +61,7 @@ const WorldDataPage = () => {
   const [loadingState, setLoadingState] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
     setLoadingState(true);
     fetch(
       "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries"
@@ -67,25 +69,40 @@ const WorldDataPage = () => {
       .then((response) => response.json())
       .then((data) => {
         //countriesData is an array
-        const countriesData = data.map((countries) => ({
-          //created object
-          name: countries.country,
-          value: countries.countryInfo.iso3,
-          cases: countries.cases,
-          newcases: countries.todayCases,
-          deaths: countries.deaths,
-          newdeaths: countries.todayDeaths,
-          active: countries.active,
-          recovered: countries.recovered,
-          seriouscritical: countries.critical,
-        }));
-        // console.log("countriesData: ", countriesData);
+        const countriesData = mapCountriesData(data);
         const sortedData = sortData(countriesData);
-        setCountries(sortedData);
-        setLoadingState(false);
+        if (isMounted) {
+          setCountries(sortedData);
+          setLoadingState(false);
+        }
       })
-      .catch((error) => console.log("Error Occured"));
+      .catch((err) => {
+        isMounted = true;
+        console.log("Error Occured: ", err);
+        //if above call failed then call this api
+        //honestly I dont know this is good approach or bad but the only solution i found
+        console.log("Another Fetch Started");
+        setLoadingState(true);
+        fetch(
+          "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries"
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            //countriesData is an array
+            const countriesData = mapCountriesData(data);
+            const sortedData = sortData(countriesData);
+            if (isMounted) {
+              setCountries(sortedData);
+              setLoadingState(false);
+            }
+          })
+          .catch((err) => console.log("2nd Request Failed: ", err));
+      });
+    return () => {
+      isMounted = false;
+    };
   }, []);
+
   let data = countries.map((e) =>
     createData(
       e.name,

@@ -59,7 +59,7 @@ const HomePage = () => {
         //if above call failed then call this api
         //honestly I dont know this is good approach or bad but the only solution i found
         console.log("Started 2nd Fetch");
-        let isMounted = true; // track whether component is mounted
+        isMounted = true; // track whether component is mounted
         fetch(
           "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/all"
         )
@@ -120,7 +120,7 @@ const HomePage = () => {
         //honestly I dont know this is good approach or bad but the only solution i found
         console.log("Started 2nd Fetch");
 
-        let isMounted = true; // track whether component is mounted
+        isMounted = true; // track whether component is mounted
         fetch(
           "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries"
         )
