@@ -9,9 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import "./worlddatapage.scss";
 import numeral from "numeral";
-import Sidebar from "./../Sidebar/Sidebar";
 import { sortData } from "./../util/util";
-import Skeleton from "@material-ui/lab/Skeleton";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { mapCountriesData } from "../util/util";
 

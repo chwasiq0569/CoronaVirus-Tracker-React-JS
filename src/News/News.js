@@ -26,13 +26,33 @@ const News = () => {
   console.log("News Loaded");
   useEffect(() => {
     let isMounted = true; // track whether component is mounted
-    const fetchData = async () => {
-      const api = await fetch(
+    const fetchData = () => {
+      fetch(
         "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/vaccine"
-      );
-      const response = await api.json();
-      console.log("response.data: ", response);
-      setData(response);
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (isMounted) {
+            setData(data);
+          }
+        })
+        .catch((err) => {
+          isMounted = true;
+          //if above call failed then call this api
+          //honestly I dont know this is good approach or bad but the only solution i found
+          console.log("First Call Failed: ", err);
+          console.log("2nd Call Started");
+          fetch(
+            "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/vaccine"
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              if (isMounted) {
+                setData(data);
+              }
+            })
+            .catch((err) => console.log("2nd Call Failed: ", err));
+        });
     };
     fetchData();
     return () => {
