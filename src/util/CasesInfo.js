@@ -1,4 +1,4 @@
-import React,{ useEffect } from "react";
+import React, { useEffect } from "react";
 import numeral from "numeral";
 import "./casesInfo.scss";
 
@@ -9,28 +9,26 @@ const CasesInfo = ({
   worldWideData,
   setcasesStateCountry,
 }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-useEffect(() => {
-  window.scrollTo(0,0);
-},[])
+  const settingStateByCheckingStatusofWorldWide = (p1, p2) =>
+    !worldWide ? setcasesStateCountry(p1) : setcasesStateWorldWide(p2);
+  window.scrollTo(0, document.body.scrollHeight);
 
   return (
     <div className={!worldWide ? "cases__Info" : "cases__Info2"}>
       <div
         className={!worldWide ? "info_Row" : "info_Row2"}
         onClick={() => {
-          !worldWide
-            ? setcasesStateCountry("cases")
-            : setcasesStateWorldWide("cases");
-            window.scrollTo(0,document.body.scrollHeight);
+          settingStateByCheckingStatusofWorldWide("cases", "cases");
         }}
       >
         <div
           className={!worldWide ? "leftSide" : "leftSide2"}
           onClick={() => {
-            !worldWide
-              ? setcasesStateCountry("cases")
-              : setcasesStateWorldWide("cases");
+            settingStateByCheckingStatusofWorldWide("cases", "cases");
           }}
         >
           <div className="markerBlue"></div>
@@ -43,18 +41,13 @@ useEffect(() => {
       <div
         className={!worldWide ? "info_Row" : "info_Row2"}
         onClick={() => {
-          !worldWide
-            ? setcasesStateCountry("recovered")
-            : setcasesStateWorldWide("recovered");
-            window.scrollTo(0,document.body.scrollHeight);
+          settingStateByCheckingStatusofWorldWide("recovered", "recovered");
         }}
       >
         <div
           className={!worldWide ? "leftSide" : "leftSide2"}
           onClick={() => {
-            !worldWide
-              ? setcasesStateCountry("recovered")
-              : setcasesStateWorldWide("recovered");
+            settingStateByCheckingStatusofWorldWide("recovered", "recovered");
           }}
         >
           <div className="markerGreen"></div>
@@ -68,10 +61,7 @@ useEffect(() => {
         <div
           className={!worldWide ? "leftSide" : "leftSide2"}
           onClick={() => {
-            !worldWide
-              ? setcasesStateCountry("deaths")
-              : setcasesStateWorldWide("deaths");
-              window.scrollTo(0,document.body.scrollHeight);
+            settingStateByCheckingStatusofWorldWide("deaths", "deaths");
           }}
         >
           <div className="markerRed"></div>
@@ -80,10 +70,7 @@ useEffect(() => {
         <div
           className={!worldWide ? "no_of_Cases" : "no_of_Cases_deaths"}
           onClick={() => {
-            !worldWide
-              ? setcasesStateCountry("deaths")
-              : setcasesStateWorldWide("deaths");
-              window.scrollTo(0,document.body.scrollHeight);
+            settingStateByCheckingStatusofWorldWide("deaths", "deaths");
           }}
         >
           {numeral(country?.deaths).format("0,0")}
