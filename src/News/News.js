@@ -42,9 +42,7 @@ const News = () => {
           //honestly I dont know this is good approach or bad but the only solution i found
           console.log("First Call Failed: ", err);
           console.log("2nd Call Started");
-          fetch(
-            "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/vaccine"
-          )
+          fetch("https://disease.sh/v3/covid-19/vaccine")
             .then((response) => response.json())
             .then((data) => {
               if (isMounted) {
