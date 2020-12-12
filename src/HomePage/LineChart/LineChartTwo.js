@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import numeral from "numeral";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { savingFetchedDataInStates } from "../../util/util";
 
 const LineChartTwo = ({ casesStateCountry, country }) => {
   const [keyArr, setKeyArr] = useState([]);
@@ -9,6 +10,7 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
   const [loadingState, setLoadingState] = useState(true);
   let keyArrTemp = [];
   let valueArrTemp = [];
+
   useEffect(() => {
     let isMounted = true; // track whether component is mounted
     const fetchCountryData = (casesState) => {
@@ -22,23 +24,39 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
       api
         .then((res) => res.json())
         .then((response) => {
-          let lastData = 0;
-          for (let key in response?.timeline[casesState]) {
-            keyArrTemp.push(key);
-            if (lastData) {
-              lastData = response?.timeline[casesState][key] - lastData;
-              valueArrTemp.push(lastData);
-            }
-            lastData = response?.timeline[casesState][key];
-          }
-          if (isMounted) {
-            setKeyArr(keyArrTemp);
-            setValueArr(valueArrTemp);
-            setLoadingState(false);
-            console.log("keyArr: ", keyArr);
-          }
+          savingFetchedDataInStates(
+            response,
+            casesState,
+            isMounted,
+            setKeyArr,
+            setValueArr,
+            setLoadingState,
+            keyArrTemp,
+            valueArrTemp
+          );
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log("Error Occured: ", error);
+          console.log("Started 2nd Fetch");
+          const api = fetch(
+            `https://disease.sh/v3/covid-19/historical/${country?.name}?lastdays=15`
+          );
+          api
+            .then((res) => res.json())
+            .then((response) => {
+              savingFetchedDataInStates(
+                response,
+                casesState,
+                isMounted,
+                setKeyArr,
+                setValueArr,
+                setLoadingState,
+                keyArrTemp,
+                valueArrTemp
+              );
+            })
+            .catch((err) => console.log("2nd Request Failed: ", err));
+        });
     };
     country && casesStateCountry && fetchCountryData(casesStateCountry);
     return () => {

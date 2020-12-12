@@ -7,6 +7,33 @@ import CasesInfo from "./CasesInfo";
 export function truncate(str, n) {
   return str?.length > n ? str.substr(0, n - 1) + "....." : str;
 }
+
+export const savingFetchedDataInStates = (
+  response,
+  casesState,
+  isMounted,
+  setKeyArr,
+  setValueArr,
+  setLoadingState,
+  keyArrTemp,
+  valueArrTemp
+) => {
+  let lastData = 0;
+  for (let key in response?.timeline[casesState]) {
+    keyArrTemp.push(key);
+    if (lastData) {
+      lastData = response?.timeline[casesState][key] - lastData;
+      valueArrTemp.push(lastData);
+    }
+    lastData = response?.timeline[casesState][key];
+  }
+  if (isMounted) {
+    setKeyArr(keyArrTemp);
+    setValueArr(valueArrTemp);
+    setLoadingState(false);
+  }
+};
+
 export const mapCountriesData = (data) => {
   return data.map((countries) => ({
     //created object
