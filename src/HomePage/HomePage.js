@@ -42,7 +42,8 @@ const HomePage = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const fetchApiWorldWide = (api = null, isMounted) => {
+  const fetchApiWorldWide = (api, isMounted) => {
+    console.log("Started Fetching Worldwide");
     if (api) {
       return fetch(api)
         .then((response) => response.json())
@@ -60,12 +61,60 @@ const HomePage = () => {
     }
   };
 
+  const fetchCountriesData = (api = null, isMounted) => {
+    console.log("Started Fetching Countries");
+    if (api) {
+      return fetch(api)
+        .then((response) => response.json())
+        .then((data) => {
+          if (isMounted) {
+            setMapCountries(data);
+          }
+          const countries = data.map((countries) => ({
+            name: countries?.country,
+            value: countries?.countryInfo?.iso3,
+            cases: countries?.cases,
+            active: countries?.active,
+            recovered: countries?.recovered,
+            deaths: countries?.deaths,
+            lat: countries?.countryInfo?.lat, // we need this for plotting graph
+            long: countries?.countryInfo?.long, // we need this for plotting graph
+          }));
+          //sortData is utility function that will sort data based on number of cases (in descending order)
+          const sortedData = sortData(countries);
+          //sorted data is stored in countries state
+          if (isMounted) {
+            setCountries(sortedData);
+          }
+          //at first before selecting any country result of country at index 0 will be dispalyed (the countries with higher no of cases)
+          setSelectedCountry(sortedData[0]);
+        });
+    } else {
+      //incase of backup
+      const countries = allCountriesBackup.map((countries) => ({
+        name: countries?.country,
+        value: countries?.countryInfo?.iso3,
+        cases: countries?.cases,
+        active: countries?.active,
+        recovered: countries?.recovered,
+        deaths: countries?.deaths,
+        lat: countries?.countryInfo?.lat,
+        long: countries?.countryInfo?.long,
+      }));
+      const sortedData = sortData(countries);
+      if (isMounted) {
+        setCountries(sortedData);
+      }
+      setSelectedCountry(sortedData[0]);
+    }
+  };
+
   useEffect(() => {
     //fetching worldwide data
     let isMounted = true; // track whether component is mounted
     fetchApiWorldWide("https://disease.sh/v3/covid-19/all", isMounted).catch(
       (err) => {
-        console.log("Error Occured: ", err);
+        console.log("Error Occured worldwide1: ", err);
         //if above call failed then call this api
         //honestly I dont know this is good approach or bad but the only solution i found is this
         console.log("Started 2nd Fetch");
@@ -74,7 +123,7 @@ const HomePage = () => {
           "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/all",
           isMounted
         ).catch((err) => {
-          console.log("2nd Request is also Failed: ", err);
+          console.log("Error Occured worldwide2: ", err);
           console.log("Displaying backup Data");
           // let newApi = api.json();
           //if 2nd request is also failed then display this backup data
@@ -98,67 +147,25 @@ const HomePage = () => {
 
   useEffect(() => {
     let isMounted = true; // track whether component is mounted
-    fetch(
-      "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries"
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (isMounted) {
-          setMapCountries(data);
-        }
-        const countries = data.map((countries) => ({
-          name: countries?.country,
-          value: countries?.countryInfo?.iso3,
-          cases: countries?.cases,
-          active: countries?.active,
-          recovered: countries?.recovered,
-          deaths: countries?.deaths,
-          lat: countries?.countryInfo?.lat, // we need this for plotting graph
-          long: countries?.countryInfo?.long, // we need this for plotting graph
-        }));
-        //sortData is utility function that will sort data based on number of cases (in descending order)
-        const sortedData = sortData(countries);
-        //sorted data is stored in countries state
-        if (isMounted) {
-          setCountries(sortedData);
-        }
-        //at first before selecting any country result of country at index 0 will be dispalyed (the countries with higher no of cases)
-        setSelectedCountry(sortedData[0]);
-      })
-      .catch((err) => {
-        console.log("Error Occured: ", err);
-        //if above call failed then call this api
-        //honestly I dont know this is good approach or bad but the only solution i found
-        console.log("Started 2nd Fetch");
-
-        isMounted = true; // track whether component is mounted
-        fetch("https://disease.sh/v3/covid-19/countries")
-          .then((response) => response.json())
-          .then((data) => {
-            if (isMounted) {
-              setMapCountries(data);
-            }
-            const countries = data.map((countries) => ({
-              name: countries?.country,
-              value: countries?.countryInfo?.iso3,
-              cases: countries?.cases,
-              active: countries?.active,
-              recovered: countries?.recovered,
-              deaths: countries?.deaths,
-              lat: countries?.countryInfo?.lat, // we need this for plotting graph
-              long: countries?.countryInfo?.long, // we need this for plotting graph
-            }));
-            //sortData is utility function that will sort data based on number of cases (in descending order)
-            const sortedData = sortData(countries);
-            //sorted data is stored in countries state
-            if (isMounted) {
-              setCountries(sortedData);
-            }
-            //at first before selecting any country result of country at index 0 will be dispalyed (the countries with higher no of cases)
-            setSelectedCountry(sortedData[0]);
-          })
-          .catch((err) => console.log("2nd Request is also Failed: ", err));
+    fetchCountriesData(
+      "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries",
+      isMounted
+    ).catch((err) => {
+      console.log("Error Occured allCountries1: ", err);
+      //if above call failed then call this api
+      //honestly I dont know this is good approach or bad but the only solution i found
+      console.log("Started 2nd Fetch");
+      isMounted = true; // track whether component is mounted
+      fetchCountriesData(
+        "https://disease.sh/v3/covid-19/countries",
+        isMounted
+      ).catch((err) => {
+        console.log("Error Occured allCountries2: ", err);
+        // console.log("allCountriesBackup: ", allCountriesBackup);
+        console.log("getting backup data of allCountries");
+        fetchCountriesData(null, isMounted); //get backupData
       });
+    });
     return () => {
       // clean up
       isMounted = false;
