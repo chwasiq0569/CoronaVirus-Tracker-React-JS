@@ -85,9 +85,9 @@ const HomePage = () => {
           //sorted data is stored in countries state
           if (isMounted) {
             setCountries(sortedData);
+            //at first before selecting any country result of country at index 0 will be dispalyed (the countries with higher no of cases)
+            setSelectedCountry(sortedData[0]);
           }
-          //at first before selecting any country result of country at index 0 will be dispalyed (the countries with higher no of cases)
-          setSelectedCountry(sortedData[0]);
         });
     } else {
       //incase of backup
@@ -104,8 +104,8 @@ const HomePage = () => {
       const sortedData = sortData(countries);
       if (isMounted) {
         setCountries(sortedData);
+        setSelectedCountry(sortedData[0]);
       }
-      setSelectedCountry(sortedData[0]);
     }
   };
 
@@ -123,6 +123,7 @@ const HomePage = () => {
           "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/all",
           isMounted
         ).catch((err) => {
+          isMounted = true;
           console.log("Error Occured worldwide2: ", err);
           console.log("Displaying backup Data");
           // let newApi = api.json();
@@ -161,7 +162,6 @@ const HomePage = () => {
         isMounted
       ).catch((err) => {
         console.log("Error Occured allCountries2: ", err);
-        // console.log("allCountriesBackup: ", allCountriesBackup);
         console.log("getting backup data of allCountries");
         fetchCountriesData(null, isMounted); //get backupData
       });

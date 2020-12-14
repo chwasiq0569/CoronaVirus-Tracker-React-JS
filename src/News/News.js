@@ -7,6 +7,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { v4 as uuidv4 } from "uuid";
 import IndividualNews from "./IndividualNews";
 import { truncate } from "../util/util";
+import newsBackup from "../backUpData/vaccines.json";
+
 const useStyles = makeStyles({
   root: {
     width: 300,
@@ -23,36 +25,40 @@ const News = () => {
     "innerRightSideRow4",
   ]);
 
-  console.log("News Loaded");
-  useEffect(() => {
-    let isMounted = true; // track whether component is mounted
-    const fetchData = () => {
-      fetch(
-        "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/vaccine"
-      )
+  const fetchingApi = (api, isMounted) => {
+    if (api) {
+      return fetch(api)
         .then((response) => response.json())
         .then((data) => {
           if (isMounted) {
             setData(data);
           }
-        })
-        .catch((err) => {
-          isMounted = true;
-          //if above call failed then call this api
-          //honestly I dont know this is good approach or bad but the only solution i found
-          console.log("First Call Failed: ", err);
-          console.log("2nd Call Started");
-          fetch("https://disease.sh/v3/covid-19/vaccine")
-            .then((response) => response.json())
-            .then((data) => {
-              if (isMounted) {
-                setData(data);
-              }
-            })
-            .catch((err) => console.log("2nd Call Failed: ", err));
         });
-    };
-    fetchData();
+    }
+  };
+  console.log("News Loaded");
+  useEffect(() => {
+    let isMounted = true; // track whether component is mounted
+    fetchingApi(
+      "https://cors-anywhere.herokuapp.com/https://diseas.sh/v3/covid-19/vaccine",
+      isMounted
+    ).catch((err) => {
+      isMounted = true;
+      //if above call failed then call this api
+      //honestly I dont know this is good approach or bad but the only solution i found
+      console.log("First Call Failed: ", err);
+      console.log("2nd Call Started");
+      fetchingApi(
+        "https://cors-anywhere.herokuapp.com/https://diseas.sh/v3/covid-19/vaccine",
+        isMounted
+      ).catch((err) => {
+        console.log("2nd Call Failed: ", err);
+        console.log("getting backup Data");
+        if (isMounted) {
+          setData(newsBackup);
+        }
+      });
+    });
     return () => {
       // clean up
       isMounted = false;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import numeral from "numeral";
 import { savingFetchedDataInStates } from "../../util/util";
+import historialbackUp from "../../backUpData/historicalData.json";
 
 const ChartRenderer = (props) => {
   const { casesStateWorldWide, apiInstance } = props;
@@ -52,7 +53,20 @@ const ChartRenderer = (props) => {
                 valueArrTemp
               );
             })
-            .catch((err) => console.log("2nd Fetch Failed: ", err));
+            .catch((err) => {
+              console.log("2nd Fetch Failed: ", err);
+              console.log("getting backup data");
+              savingFetchedDataInStates(
+                historialbackUp,
+                casesState,
+                isMounted,
+                setKeyArr,
+                setValueArr,
+                setLoadingState,
+                keyArrTemp,
+                valueArrTemp
+              );
+            });
         });
     };
     casesStateWorldWide && fetchData(casesStateWorldWide);
