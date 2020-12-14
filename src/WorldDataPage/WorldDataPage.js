@@ -12,6 +12,7 @@ import numeral from "numeral";
 import { sortData } from "./../util/util";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { mapCountriesData } from "../util/util";
+import allCountriesBackup from "../backUpData/allCountries.json";
 
 const useStyles = makeStyles({
   table: {
@@ -58,42 +59,50 @@ const WorldDataPage = () => {
   const [info, setInfo] = useState([]);
   const [loadingState, setLoadingState] = useState(true);
 
+  const fetchingApi = (api, isMounted) => {
+    if (api) {
+      return fetch(api)
+        .then((response) => response.json())
+        .then((data) => {
+          //countriesData is an array
+          if (isMounted) {
+            const countriesData = mapCountriesData(data);
+            const sortedData = sortData(countriesData);
+            setCountries(sortedData);
+            setLoadingState(false);
+          }
+        });
+    }
+  };
+
   useEffect(() => {
     let isMounted = true;
     setLoadingState(true);
-    fetch(
-      "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries"
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        //countriesData is an array
-        const countriesData = mapCountriesData(data);
-        const sortedData = sortData(countriesData);
-        if (isMounted) {
-          setCountries(sortedData);
-          setLoadingState(false);
-        }
-      })
-      .catch((err) => {
-        isMounted = true;
-        console.log("Error Occured: ", err);
-        //if above call failed then call this api
-        //honestly I dont know this is good approach or bad but the only solution i found
-        console.log("Another Fetch Started");
-        setLoadingState(true);
-        fetch("https://disease.sh/v3/covid-19/countries")
-          .then((response) => response.json())
-          .then((data) => {
-            //countriesData is an array
-            const countriesData = mapCountriesData(data);
+    console.log("Started Fetching WorldWidePageData");
+    fetchingApi(
+      "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries",
+      isMounted
+    ).catch((err) => {
+      isMounted = true;
+      console.log("Error Occured in WorldWideData Page Request1: ", err);
+      //if above call failed then call this api
+      //honestly I dont know this is good approach or bad but the only solution i found
+      console.log("Another Fetch Started");
+      setLoadingState(true);
+      fetchingApi("https://disease.sh/v3/covid-19/countries", isMounted).catch(
+        (err) => {
+          //getting Backup of worldwidedata page
+          console.log("Error Occured in WorldWideData Page Request2: ", err);
+          console.log("getting Backup of worldwidedata page");
+          if (isMounted) {
+            const countriesData = mapCountriesData(allCountriesBackup);
             const sortedData = sortData(countriesData);
-            if (isMounted) {
-              setCountries(sortedData);
-              setLoadingState(false);
-            }
-          })
-          .catch((err) => console.log("2nd Request Failed: ", err));
-      });
+            setCountries(sortedData);
+            setLoadingState(false);
+          }
+        }
+      );
+    });
     return () => {
       isMounted = false;
     };
