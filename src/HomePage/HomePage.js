@@ -9,6 +9,8 @@ import LineChartTwo from "./LineChart/LineChartTwo";
 import Sidebar from "./../Sidebar/Sidebar";
 import ListItem from "./ListItem/ListItem";
 import ChartRenderer from "./LineChart/ChartRenderer";
+import worldWideBackup from "../backUpData/worldwide.json";
+import allCountriesBackup from "../backUpData/allCountries";
 
 const HomePage = () => {
   //in countries data of all countries stored
@@ -37,48 +39,57 @@ const HomePage = () => {
   // const [selected, setSelected] = useState("");
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const fetchApiWorldWide = (api = null, isMounted) => {
+    if (api) {
+      return fetch(api)
+        .then((response) => response.json())
+        .then((data) => {
+          if (isMounted) {
+            setWorldWide({
+              name: "Worldwide",
+              cases: data.cases,
+              active: data.active,
+              recovered: data.recovered,
+              deaths: data.deaths,
+            });
+          }
+        });
+    }
+  };
+
+  useEffect(() => {
     //fetching worldwide data
     let isMounted = true; // track whether component is mounted
-    fetch(
-      "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/all"
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (isMounted) {
-          setWorldWide({
-            name: "Worldwide",
-            cases: data.cases,
-            active: data.active,
-            recovered: data.recovered,
-            deaths: data.deaths,
-          });
-        }
-      })
-      .catch((err) => {
+    fetchApiWorldWide("https://disease.sh/v3/covid-19/all", isMounted).catch(
+      (err) => {
         console.log("Error Occured: ", err);
         //if above call failed then call this api
-        //honestly I dont know this is good approach or bad but the only solution i found
+        //honestly I dont know this is good approach or bad but the only solution i found is this
         console.log("Started 2nd Fetch");
         isMounted = true; // track whether component is mounted
-        fetch(
-          "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/all"
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            if (isMounted) {
-              setWorldWide({
-                name: "Worldwide",
-                cases: data.cases,
-                active: data.active,
-                recovered: data.recovered,
-                deaths: data.deaths,
-              });
-            }
-          })
-          .catch((err) => console.log("2nd Request is also Failed: ", err));
-      });
-    //fetching data of all countries
-
+        fetchApiWorldWide(
+          "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/all",
+          isMounted
+        ).catch((err) => {
+          console.log("2nd Request is also Failed: ", err);
+          console.log("Displaying backup Data");
+          // let newApi = api.json();
+          //if 2nd request is also failed then display this backup data
+          if (isMounted) {
+            setWorldWide({
+              name: "Worldwide",
+              cases: worldWideBackup.cases,
+              active: worldWideBackup.active,
+              recovered: worldWideBackup.recovered,
+              deaths: worldWideBackup.deaths,
+            });
+          }
+        });
+      }
+    );
     return () => {
       // clean up
       isMounted = false;

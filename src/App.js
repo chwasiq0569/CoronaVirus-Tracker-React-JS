@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import Topbar from "./Topbar/Topbar";
 import HomePage from "./HomePage/HomePage";
@@ -9,6 +9,9 @@ import News from "./News/News";
 import NewsDetails from "./News/NewsDetails";
 import Sidebar from "./Sidebar/Sidebar";
 function App() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="App">
       <Topbar />

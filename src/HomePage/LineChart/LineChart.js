@@ -4,6 +4,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 const LineChart = (props) => {
   const { loadingState } = props;
+
   //casesStateWorldWide  can contain string "cases" || "deaths"||  "recovered"
   return (
     <div style={{ height: "auto", width: "100%" }}>

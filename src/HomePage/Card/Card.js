@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./card.scss";
 import CasesInfo from "./../../util/CasesInfo";
 import "react-count-animation/dist/count.min.css";
