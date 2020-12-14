@@ -14,11 +14,13 @@ const ChartRenderer = (props) => {
   let keyArrTemp = []; // just for temporary storage contain cases
 
   useEffect(() => {
+    let controller = new AbortController();
+
     let isMounted = true; // track whether component is mounted
     const fetchData = (casesState) => {
       //this api will fetch historical data of last 15 days
       setLoadingState(true);
-      const api = fetch(apiInstance);
+      const api = fetch(apiInstance, { signal: controller.signal });
       api
         .then((res) => res.json())
         .then((response) => {
@@ -34,6 +36,9 @@ const ChartRenderer = (props) => {
           );
         })
         .catch((err) => {
+          if (err.name == "AbortError") {
+            return;
+          }
           console.log("Error Occured: ", err);
           console.log("2nd Fetch Started");
           const api = fetch(
@@ -54,6 +59,9 @@ const ChartRenderer = (props) => {
               );
             })
             .catch((err) => {
+              if (err.name == "AbortError") {
+                return;
+              }
               console.log("2nd Fetch Failed: ", err);
               console.log("getting backup data");
               savingFetchedDataInStates(
@@ -74,6 +82,7 @@ const ChartRenderer = (props) => {
     return () => {
       // clean up
       isMounted = false;
+      controller.abort();
     };
   }, [casesStateWorldWide]);
 

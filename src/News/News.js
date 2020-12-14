@@ -25,9 +25,10 @@ const News = () => {
     "innerRightSideRow4",
   ]);
 
+  let controller = new AbortController();
   const fetchingApi = (api, isMounted) => {
     if (api) {
-      return fetch(api)
+      return fetch(api, { signal: controller.signal })
         .then((response) => response.json())
         .then((data) => {
           if (isMounted) {
@@ -40,18 +41,24 @@ const News = () => {
   useEffect(() => {
     let isMounted = true; // track whether component is mounted
     fetchingApi(
-      "https://cors-anywhere.herokuapp.com/https://diseas.sh/v3/covid-19/vaccine",
+      "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/vaccine",
       isMounted
     ).catch((err) => {
+      if (err.name == "AbortError") {
+        return;
+      }
       isMounted = true;
       //if above call failed then call this api
       //honestly I dont know this is good approach or bad but the only solution i found
       console.log("First Call Failed: ", err);
       console.log("2nd Call Started");
       fetchingApi(
-        "https://cors-anywhere.herokuapp.com/https://diseas.sh/v3/covid-19/vaccine",
+        "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/vaccine",
         isMounted
       ).catch((err) => {
+        if (err.name == "AbortError") {
+          return;
+        }
         console.log("2nd Call Failed: ", err);
         console.log("getting backup Data");
         if (isMounted) {
@@ -62,6 +69,7 @@ const News = () => {
     return () => {
       // clean up
       isMounted = false;
+      controller.abort();
     };
   }, []);
 

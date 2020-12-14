@@ -12,7 +12,7 @@ import ChartRenderer from "./LineChart/ChartRenderer";
 import worldWideBackup from "../backUpData/worldwide.json";
 import allCountriesBackup from "../backUpData/allCountries";
 
-const HomePage = () => {
+const HomePage = ({ setFetchFailedStatus, fetchFailedStatus }) => {
   //in countries data of all countries stored
   const [countries, setCountries] = useState([]);
   //in selectedCountry data of clicked item will be stored
@@ -38,14 +38,11 @@ const HomePage = () => {
   const [casesStateCountry, setcasesStateCountry] = useState("cases");
   // const [selected, setSelected] = useState("");
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
+  let controller = new AbortController();
   const fetchApiWorldWide = (api, isMounted) => {
     console.log("Started Fetching Worldwide");
     if (api) {
-      return fetch(api)
+      return fetch(api, { signal: controller.signal })
         .then((response) => response.json())
         .then((data) => {
           if (isMounted) {
@@ -64,7 +61,7 @@ const HomePage = () => {
   const fetchCountriesData = (api = null, isMounted) => {
     console.log("Started Fetching Countries");
     if (api) {
-      return fetch(api)
+      return fetch(api, { signal: controller.signal })
         .then((response) => response.json())
         .then((data) => {
           if (isMounted) {
@@ -114,6 +111,9 @@ const HomePage = () => {
     let isMounted = true; // track whether component is mounted
     fetchApiWorldWide("https://disease.sh/v3/covid-19/all", isMounted).catch(
       (err) => {
+        if (err.name == "AbortError") {
+          return;
+        }
         console.log("Error Occured worldwide1: ", err);
         //if above call failed then call this api
         //honestly I dont know this is good approach or bad but the only solution i found is this
@@ -123,12 +123,17 @@ const HomePage = () => {
           "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/all",
           isMounted
         ).catch((err) => {
+          if (err.name == "AbortError") {
+            return;
+          }
           isMounted = true;
           console.log("Error Occured worldwide2: ", err);
           console.log("Displaying backup Data");
           // let newApi = api.json();
           //if 2nd request is also failed then display this backup data
           if (isMounted) {
+            setFetchFailedStatus(true);
+
             setWorldWide({
               name: "Worldwide",
               cases: worldWideBackup.cases,
@@ -143,6 +148,7 @@ const HomePage = () => {
     return () => {
       // clean up
       isMounted = false;
+      controller.abort();
     };
   }, []);
 
@@ -152,6 +158,9 @@ const HomePage = () => {
       "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries",
       isMounted
     ).catch((err) => {
+      if (err.name == "AbortError") {
+        return;
+      }
       console.log("Error Occured allCountries1: ", err);
       //if above call failed then call this api
       //honestly I dont know this is good approach or bad but the only solution i found
@@ -161,6 +170,9 @@ const HomePage = () => {
         "https://disease.sh/v3/covid-19/countries",
         isMounted
       ).catch((err) => {
+        if (err.name == "AbortError") {
+          return;
+        }
         console.log("Error Occured allCountries2: ", err);
         console.log("getting backup data of allCountries");
         fetchCountriesData(null, isMounted); //get backupData
@@ -169,6 +181,7 @@ const HomePage = () => {
     return () => {
       // clean up
       isMounted = false;
+      controller.abort();
     };
   }, []);
 

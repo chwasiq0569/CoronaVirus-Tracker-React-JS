@@ -4,6 +4,14 @@
   padding: 0;
   box-sizing: border-box;
 }
+.fetchFailedInfo {
+  margin-right: 1rem;
+  padding-left: 0.5rem;
+  font-size: 0.7rem;
+  background-color: rgb(255, 130, 130);
+  color: black;
+  border-radius: 8px;
+}
 .topBar__Wrapper {
   width: 100%;
   height: 3.5rem;

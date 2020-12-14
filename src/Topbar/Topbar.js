@@ -3,7 +3,7 @@ import "./topbar.scss";
 import CovidImg from "../assets/images/icons8-coronavirus-100.png";
 import { Link } from "react-router-dom";
 
-const Topbar = () => {
+const Topbar = ({ fetchFailedStatus }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -18,6 +18,12 @@ const Topbar = () => {
         <div className="outer__Container">
           <div className="leftSide">
             <h1>COVID-19 Coronavirus Tracker</h1>
+            {fetchFailedStatus ? (
+              <p className="fetchFailedInfo">
+                Because of some (CORS) api issues this data is not real-time
+                this is backup data.Try to refresh page!
+              </p>
+            ) : null}
           </div>
           <div className="rightSide">
             <p

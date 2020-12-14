@@ -58,10 +58,11 @@ const WorldDataPage = () => {
   const [countries, setCountries] = useState([]);
   const [info, setInfo] = useState([]);
   const [loadingState, setLoadingState] = useState(true);
+  let controller = new AbortController();
 
   const fetchingApi = (api, isMounted) => {
     if (api) {
-      return fetch(api)
+      return fetch(api, { signal: controller.signal })
         .then((response) => response.json())
         .then((data) => {
           //countriesData is an array
@@ -83,6 +84,9 @@ const WorldDataPage = () => {
       "https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/countries",
       isMounted
     ).catch((err) => {
+      if (err.name == "AbortError") {
+        return;
+      }
       isMounted = true;
       console.log("Error Occured in WorldWideData Page Request1: ", err);
       //if above call failed then call this api
@@ -91,6 +95,9 @@ const WorldDataPage = () => {
       setLoadingState(true);
       fetchingApi("https://disease.sh/v3/covid-19/countries", isMounted).catch(
         (err) => {
+          if (err.name == "AbortError") {
+            return;
+          }
           //getting Backup of worldwidedata page
           console.log("Error Occured in WorldWideData Page Request2: ", err);
           console.log("getting Backup of worldwidedata page");
@@ -105,6 +112,7 @@ const WorldDataPage = () => {
     });
     return () => {
       isMounted = false;
+      controller.abort();
     };
   }, []);
 

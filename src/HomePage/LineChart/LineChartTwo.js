@@ -12,14 +12,15 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
   let valueArrTemp = [];
 
   useEffect(() => {
+    let controller = new AbortController();
     let isMounted = true; // track whether component is mounted
     const fetchCountryData = (casesState) => {
       console.log("Started Fetching");
-      // setKeyArr([]);
-      // setValueArr([]);
+
       setLoadingState(true);
       const api = fetch(
-        `https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/historical/${country?.name}?lastdays=15`
+        `https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/historical/${country?.name}?lastdays=15`,
+        { signal: controller.signal }
       );
       api
         .then((res) => res.json())
@@ -35,11 +36,15 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
             valueArrTemp
           );
         })
-        .catch((error) => {
-          console.log("Error Occured: ", error);
+        .catch((err) => {
+          if (err.name == "AbortError") {
+            return;
+          }
+          console.log("Error Occured: ", err);
           console.log("Started 2nd Fetch");
           const api = fetch(
-            `https://disease.sh/v3/covid-19/historical/${country?.name}?lastdays=15`
+            `https://disease.sh/v3/covid-19/historical/${country?.name}?lastdays=15`,
+            { signal: controller.signal }
           );
           api
             .then((res) => res.json())
@@ -62,6 +67,7 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
     return () => {
       // clean up
       isMounted = false;
+      controller.abort();
     };
   }, [casesStateCountry, country]);
 
