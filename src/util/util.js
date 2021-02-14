@@ -18,6 +18,7 @@ export const savingFetchedDataInStates = (
   keyArrTemp,
   valueArrTemp
 ) => {
+  console.log("keyArrTemp", keyArrTemp);
   let lastData = 0;
   for (let key in response[casesState]) {
     keyArrTemp.push(key);

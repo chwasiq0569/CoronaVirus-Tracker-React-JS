@@ -3,6 +3,7 @@ import { Line } from "react-chartjs-2";
 import numeral from "numeral";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { savingFetchedDataInStates } from "../../util/util";
+import { responsiveFontSizes } from "@material-ui/core";
 
 const LineChartTwo = ({ casesStateCountry, country }) => {
   const [keyArr, setKeyArr] = useState([]);
@@ -15,8 +16,7 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
     let controller = new AbortController();
     let isMounted = true; // track whether component is mounted
     const fetchCountryData = (casesState) => {
-      console.log("Started Fetching");
-
+      console.log("Started Fetching: ", casesState);
       setLoadingState(true);
       const api = fetch(
         `https://cors-anywhere.herokuapp.com/https://disease.sh/v3/covid-19/historical/${country?.name}?lastdays=15`,
@@ -49,8 +49,9 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
           api
             .then((res) => res.json())
             .then((response) => {
+              console.log("RESPONSE: ", response)
               savingFetchedDataInStates(
-                response,
+                response.timeline,
                 casesState,
                 isMounted,
                 setKeyArr,
@@ -70,6 +71,8 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
       controller.abort();
     };
   }, [casesStateCountry, country]);
+
+
 
   const dataChartCases = {
     labels: keyArr,
@@ -117,6 +120,9 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
     }
   };
 
+
+
+
   const options = {
     legend: {
       display: true,
@@ -154,6 +160,7 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
           ticks: {
             // Include a dollar sign in the ticks
             callback: function (value, index, values) {
+              
               return numeral(value).format("0a");
             },
           },
@@ -161,7 +168,7 @@ const LineChartTwo = ({ casesStateCountry, country }) => {
       ],
     },
   };
-
+ 
   return (
     <div
       style={{
